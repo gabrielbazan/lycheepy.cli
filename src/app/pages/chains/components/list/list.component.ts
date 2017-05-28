@@ -17,7 +17,6 @@ export class ChainsListComponent {
         this.chains = data.json().results;
       },
       err => console.error(err),
-      () => console.log('Retrieved users list'),
     );
   }
 

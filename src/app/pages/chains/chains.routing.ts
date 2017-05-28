@@ -2,6 +2,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ChainsComponent } from './chains.component';
 import { ChainsListComponent } from './components/list/list.component';
+import { ChainsDetailComponent } from './components/detail/detail.component';
+
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -9,7 +11,8 @@ const routes: Routes = [
     path: '',
     component: ChainsComponent,
     children: [
-      { path: 'list', component: ChainsListComponent },
+      { path: '', component: ChainsListComponent },
+      { path: ':id', component: ChainsDetailComponent },
     ],
   },
 ];

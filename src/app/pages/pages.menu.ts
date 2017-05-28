@@ -27,10 +27,10 @@ export const PAGES_MENU = [
         },
         children: [
           {
-            path: 'list',
+            path: '',
             data: {
               menu: {
-                title: 'general.menu.chains_list',
+                title: 'general.menu.chains',
               },
             },
           },

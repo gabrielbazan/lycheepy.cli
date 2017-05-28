@@ -17,7 +17,6 @@
       "login": "Login",
       "register": "Register",
       "chains": "Chains",
-      "chains_list": "List",
       "chains_create": "New Chain"
     }
   },
