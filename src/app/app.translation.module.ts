@@ -13,8 +13,8 @@ const translationOptions = {
   loader: {
     provide: TranslateLoader,
     useFactory: (createTranslateLoader),
-    deps: [Http]
-  }
+    deps: [Http],
+  },
 };
 
 @NgModule({
