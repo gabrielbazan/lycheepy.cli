@@ -32,8 +32,6 @@ export class App {
 
     themeConfig.config();
 
-    this._loadImages();
-
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
@@ -44,11 +42,6 @@ export class App {
     BaThemePreloader.load().then((values) => {
       this._spinner.hide();
     });
-  }
-
-  private _loadImages(): void {
-    // register some loaders
-    BaThemePreloader.registerLoader(this._imageLoader.load('/assets/img/sky-bg.jpg'));
   }
 
 }

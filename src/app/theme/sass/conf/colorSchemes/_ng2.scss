@@ -74,7 +74,7 @@ $hoverlink: darken($activelink, 20%);
     height: 100%;
     top: 0;
     left: 0;
-    background: url($mainBgUrl) no-repeat center center;
+    background-color: #7d7d7d;
     background-size: cover;
     will-change: transform;
     z-index: 0;
