@@ -10,6 +10,9 @@ class ExampleNetworkData implements VisNetworkData {
   edges: DataSet<Edge>;
 }
 
+import { ExecutionModal } from '../execution/execution.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'chains-detail-component',
@@ -30,6 +33,7 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
     protected service: ChainsService,
     private activatedRoute: ActivatedRoute,
     private visNetworkService: VisNetworkService,
+    private modalService: NgbModal,
   ) {}
 
 
@@ -56,6 +60,11 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setId();
     this.setChainData();
+  }
+
+  openExecutionForm() {
+    const activeModal = this.modalService.open(ExecutionModal, { size: 'lg' });
+    activeModal.componentInstance.chain = this.chain;
   }
 
   draw() {

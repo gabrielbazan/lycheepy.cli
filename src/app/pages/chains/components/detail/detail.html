@@ -1,7 +1,7 @@
-<ba-card *ngIf="chain" title="{{ chain.identifier }} Chain">
+<!--TODO: Make it local-->
+<link href="http://visjs.org/dist/vis-network.min.css" rel="stylesheet" type="text/css"/>
 
-  <!--TODO: Make it local-->
-  <link href="http://visjs.org/dist/vis-network.min.css" rel="stylesheet" type="text/css"/>
+<ba-card *ngIf="chain" title="{{ chain.identifier }} Chain" id="graph">
 
   <div id="network-popUp">
     <span id="operation">node</span> <br>
@@ -20,5 +20,5 @@
        [visNetworkData]="visNetworkData"
        [visNetworkOptions]="visNetworkOptions"></div>
 
-  <button class="btn btn-primary btn-raised" type="button">Execute</button>
+  <button class="btn btn-primary btn-raised" type="button" (click)="openExecutionForm()">Execute</button>
 </ba-card>

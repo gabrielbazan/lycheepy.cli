@@ -10,7 +10,7 @@ export class ChainsService {
   private uri: string;
 
   constructor(private http: Http) {
-    this.uri = Settings.ENDPOINT + 'chains/';
+    this.uri = Settings.API_ENDPOINT + 'chains/';
   }
 
   getList() {

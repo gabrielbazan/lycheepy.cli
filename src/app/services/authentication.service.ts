@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { RequestOptions, Headers } from '@angular/http';
-import { Settings } from './settings';
-import { Globals } from './globals/globals';
+import { Settings } from '../settings';
+import { Globals } from '../globals/globals';
 
 
 @Injectable()
@@ -11,7 +11,7 @@ export class AuthenticationService {
   private globals: Globals;
 
   constructor(private http: Http) {
-    this.uri = `${Settings.ENDPOINT}tokens/`;
+    this.uri = `${Settings.API_ENDPOINT}tokens/`;
     this.globals = Globals.getInstance();
   }
 

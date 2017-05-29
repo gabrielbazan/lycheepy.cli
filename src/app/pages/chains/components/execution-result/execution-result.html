@@ -1,0 +1,25 @@
+<ba-card title="Execution Results Preview">
+  <div class="map"></div>
+</ba-card>
+
+
+<ba-card title="Execution Results List">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="align-center">Identifier</th>
+        <th class="align-center">Creator</th>
+        <th class="align-center">Type</th>
+        <th class="align-center">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let result of results" [class.active]="result == shownResult" (click)="showResult(result)">
+        <td>{{ result['dc:identifier'] }}</td>
+        <td>{{ result['dc:creator'] }}</td>
+        <td>{{ result['dc:title'] }}</td>
+        <td>{{ result['dc:description'] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ba-card>
