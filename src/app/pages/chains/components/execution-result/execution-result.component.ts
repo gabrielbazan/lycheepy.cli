@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { CswService } from '../../../../services/csw.service'
+import { CswService } from '../../../../services/csw.service';
 
 import 'leaflet-map';
 
