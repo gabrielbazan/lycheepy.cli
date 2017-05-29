@@ -3,10 +3,20 @@
 table {
   th {
     text-align: center;
+    border-top: none;
   }
   td {
     text-align: left !important;
   }
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
+}
+
+ba-card {
+  text-align: center;
 }
 
 .network-canvas, #network-popUp {

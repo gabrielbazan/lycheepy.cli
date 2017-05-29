@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChainsService } from '../../chains.service';
+import { ExecutionsService } from '../../executions.service';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { VisNodes, VisNetworkService, VisNetworkData, VisNetworkOptions } from 'ng2-vis/components';
@@ -23,6 +24,7 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
 
   id: number;
   chain: any;
+  executions: any[];
 
   visNetwork: string = 'chainGraph';
   visNetworkData: ExampleNetworkData;
@@ -30,10 +32,11 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    protected service: ChainsService,
+    protected chainsService: ChainsService,
     private activatedRoute: ActivatedRoute,
     private visNetworkService: VisNetworkService,
     private modalService: NgbModal,
+    private executionsService: ExecutionsService,
   ) {}
 
 
@@ -44,10 +47,19 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
   }
 
   private setChainData(): void {
-    this.service.get(this.id).subscribe(
+    this.chainsService.get(this.id).subscribe(
       data => {
         this.chain = data.json();
         this.draw();
+      },
+      err => console.error(err),
+    );
+  }
+
+  private setExecutions(): void {
+    this.executionsService.getList({ ordering: '-start', chain: this.id }).subscribe(
+      data => {
+        this.executions = data.json().results;
       },
       err => console.error(err),
     );
@@ -60,6 +72,7 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setId();
     this.setChainData();
+    this.setExecutions();
   }
 
   openExecutionForm() {

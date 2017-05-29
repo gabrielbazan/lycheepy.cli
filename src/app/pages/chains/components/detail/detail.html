@@ -1,7 +1,7 @@
 <!--TODO: Make it local-->
 <link href="http://visjs.org/dist/vis-network.min.css" rel="stylesheet" type="text/css"/>
 
-<ba-card *ngIf="chain" title="{{ chain.identifier }} Chain" id="graph">
+<ba-card *ngIf="chain" title="Execution Graph">
 
   <div id="network-popUp">
     <span id="operation">node</span> <br>
@@ -21,4 +21,54 @@
        [visNetworkOptions]="visNetworkOptions"></div>
 
   <button class="btn btn-primary btn-raised" type="button" (click)="openExecutionForm()">Execute</button>
+
+</ba-card>
+
+
+<ba-card *ngIf="chain" title="Chain Metadata">
+
+  <tag-input [(ngModel)]='chain.metadata'
+             theme='minimal'
+             placeholder="+ Metadata"
+             secondaryPlaceholder="Enter metadata"></tag-input>
+
+  <div class="form-group">
+    <label for="identifier">Identifier</label>
+    <input type="text" id="identifier"  class="form-control" placeholder="Identifier" [(ngModel)]='chain.identifier'>
+  </div>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" id="title" class="form-control" placeholder="Title" [(ngModel)]='chain.title'>
+  </div>
+  <div class="form-group">
+    <label for="abstract">Abstract</label>
+    <textarea  id="abstract" class="form-control" placeholder="Abstract" [(ngModel)]='chain.abstract'></textarea>
+  </div>
+
+  <button class="btn btn-primary btn-raised" type="button">Save</button>
+
+</ba-card>
+
+
+<ba-card title="Executions">
+
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th class="align-center">Execution ID</th>
+      <th class="align-center">Status</th>
+      <th class="align-center">Start</th>
+      <th class="align-center">End</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let execution of executions" routerLink="/pages/chains/{{ chain.id }}/executions/{{ execution.id }}">
+      <td>{{ execution.id }}</td>
+      <td>{{ execution.status }}</td>
+      <td>{{ execution.start }}</td>
+      <td>{{ execution.end }}</td>
+    </tr>
+    </tbody>
+  </table>
+
 </ba-card>
