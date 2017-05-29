@@ -51,7 +51,7 @@ export class ExecutionResultComponent implements OnInit, AfterViewInit {
         this.resultLayers.addLayer(
           L.rectangle(
             [lowerCorner, upperCorner],
-            { color: '#ff7800', weight: 1 },
+            { color: '#209e91', weight: 1 },
           ),
         );
       }
