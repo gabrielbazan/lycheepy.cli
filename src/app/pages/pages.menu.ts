@@ -7,7 +7,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'general.menu.dashboard',
-            icon: 'ion-android-home',
+            icon: 'ion-pie-graph',
             selected: false,
             expanded: false,
             order: 0,
@@ -19,7 +19,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'general.menu.chains',
-            icon: 'ion-android-home',
+            icon: 'ion-merge',
             selected: false,
             expanded: false,
             order: 1,
@@ -45,52 +45,30 @@ export const PAGES_MENU = [
         ],
       },
       {
-        path: 'maps',
+        path: 'processes',
         data: {
           menu: {
-            title: 'general.menu.maps',
-            icon: 'ion-ios-location-outline',
+            title: 'general.menu.processes',
+            icon: 'ion-ios-cog',
             selected: false,
             expanded: false,
-            order: 600,
+            order: 0,
           },
         },
         children: [
           {
-            path: 'leafletmaps',
+            path: '',
             data: {
               menu: {
-                title: 'general.menu.leaflet_maps',
-              },
-            },
-          },
-        ],
-      },
-      {
-        path: '',
-        data: {
-          menu: {
-            title: 'general.menu.pages',
-            icon: 'ion-document',
-            selected: false,
-            expanded: false,
-            order: 650,
-          },
-        },
-        children: [
-          {
-            path: ['/login'],
-            data: {
-              menu: {
-                title: 'general.menu.login',
+                title: 'general.menu.processes',
               },
             },
           },
           {
-            path: ['/register'],
+            path: 'create',
             data: {
               menu: {
-                title: 'general.menu.register',
+                title: 'general.menu.processes_create',
               },
             },
           },

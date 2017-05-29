@@ -17,7 +17,9 @@
       "login": "Login",
       "register": "Register",
       "chains": "Chains",
-      "chains_create": "New Chain"
+      "chains_create": "New Chain",
+      "processes": "Processes",
+      "processes_create": "New Process"
     }
   },
   "dashboard": {
