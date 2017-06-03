@@ -5,12 +5,20 @@
 
   <div id="network-popUp">
     <span id="operation">node</span> <br>
-    <table style="margin:auto;"><tr>
-      <td>id</td><td><input id="node-id" value="new value" /></td>
-    </tr>
+    <table style="margin:auto;">
       <tr>
-        <td>label</td><td><input id="node-label" value="new value" /></td>
-      </tr></table>
+        <td>id</td>
+        <td>
+          <input id="node-id" value="new value" />
+        </td>
+      </tr>
+      <tr>
+        <td>label</td>
+        <td>
+          <input id="node-label" value="new value" />
+        </td>
+      </tr>
+    </table>
     <input type="button" value="save" id="saveButton" />
     <input type="button" value="cancel" id="cancelButton" />
   </div>
@@ -30,7 +38,9 @@
   <tag-input [(ngModel)]='chain.metadata'
              theme='minimal'
              placeholder="+ Metadata"
-             secondaryPlaceholder="Enter metadata"></tag-input>
+             secondaryPlaceholder="Enter metadata"
+             [editable]='true'
+             modelAsStrings='true'></tag-input>
 
   <div class="form-group">
     <label for="identifier">Identifier</label>
@@ -45,28 +55,28 @@
     <textarea  id="abstract" class="form-control" placeholder="Abstract" [(ngModel)]='chain.abstract'></textarea>
   </div>
 
-  <button class="btn btn-primary btn-raised" type="button">Save</button>
+  <button class="btn btn-primary btn-raised" type="button" (click)="updateChain()">Save</button>
 
 </ba-card>
 
 
-<ba-card title="Executions">
+<ba-card *ngIf="executions && chain" title="Executions">
 
   <table class="table table-hover">
     <thead>
     <tr>
       <th class="align-center">Execution ID</th>
-      <th class="align-center">Status</th>
       <th class="align-center">Start</th>
       <th class="align-center">End</th>
+      <th class="align-center">Status</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let execution of executions" routerLink="/pages/chains/{{ chain.id }}/executions/{{ execution.id }}">
       <td>{{ execution.id }}</td>
-      <td>{{ execution.status }}</td>
       <td>{{ execution.start }}</td>
       <td>{{ execution.end }}</td>
+      <td>{{ execution.status }}</td>
     </tr>
     </tbody>
   </table>

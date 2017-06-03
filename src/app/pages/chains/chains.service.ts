@@ -28,4 +28,11 @@ export class ChainsService {
       // { headers: Globals.getInstance().getTokenHeader() },
     );
   }
+
+  update(id: number, properties: object) {
+    return this.http.patch(
+      this.uri + id + '/',
+      properties,
+    );
+  }
 }

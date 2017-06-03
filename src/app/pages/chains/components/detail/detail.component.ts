@@ -6,7 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { VisNodes, VisNetworkService, VisNetworkData, VisNetworkOptions } from 'ng2-vis/components';
 import { DataSet, Edge } from 'vis';
 
-class ExampleNetworkData implements VisNetworkData {
+class NetworkData implements VisNetworkData {
   nodes: VisNodes;
   edges: DataSet<Edge>;
 }
@@ -27,9 +27,8 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
   executions: any[];
 
   visNetwork: string = 'chainGraph';
-  visNetworkData: ExampleNetworkData;
+  visNetworkData: NetworkData;
   visNetworkOptions: VisNetworkOptions;
-
 
   constructor(
     protected chainsService: ChainsService,
@@ -39,6 +38,15 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
     private executionsService: ExecutionsService,
   ) {}
 
+  ngOnInit(): void {
+    this.setId();
+    this.setChainData();
+    this.setExecutions();
+  }
+
+  ngOnDestroy(): void {
+    this.visNetworkService.off(this.visNetwork, 'click');
+  }
 
   private setId(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -65,23 +73,29 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.visNetworkService.off(this.visNetwork, 'click');
-  }
-
-  ngOnInit(): void {
-    this.setId();
-    this.setChainData();
-    this.setExecutions();
-  }
-
   openExecutionForm() {
     const activeModal = this.modalService.open(ExecutionModal, { size: 'lg' });
     activeModal.componentInstance.chain = this.chain;
   }
 
-  draw() {
+  updateChain() {
+    this.getChainSteps();
 
+    this.chainsService.update(this.id, this.chain).subscribe(
+      data => {
+        this.chain = data.json();
+      },
+    );
+  }
+
+  getChainSteps() {
+    const steps: object[] = [];
+    this.visNetworkData.edges.forEach(function (item, id) {
+      console.log(item, id);
+    });
+  }
+
+  draw() {
     const nodesList: string[] = [];
     const draftNodes: object[] = [];
     const draftEdges: object[] = [];
@@ -110,6 +124,7 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
     this.visNetworkData = { nodes, edges };
 
     const clearPopUp = function() {
+      console.log('clear popup');
       document.getElementById('saveButton').onclick = null;
       document.getElementById('cancelButton').onclick = null;
       document.getElementById('network-popUp').style.display = 'none';
@@ -121,6 +136,7 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
     };
 
     const saveData = function(data, callback) {
+      console.log('save data');
       data.id = (<HTMLInputElement>document.getElementById('node-id')).value;
       data.label = (<HTMLInputElement>document.getElementById('node-label')).value;
       clearPopUp();
@@ -130,6 +146,7 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
     this.visNetworkOptions = {
       manipulation: {
         addNode: function (data, callback) {
+          console.log('adding node.');
           // filling in the popup DOM elements
           document.getElementById('operation').innerHTML = 'Add Node';
           (<HTMLInputElement>document.getElementById('node-id')).value = data.id;
@@ -170,6 +187,17 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
       edges: {
         smooth: false,
         arrows: 'to',
+      },
+      nodes: {
+        color: '#209e91',
+        shape: 'box',
+        shapeProperties: {
+          borderRadius: 0,
+          borderDashes: false,
+          interpolation: false,
+          useImageSize: false,
+          useBorderWithImage: false,
+        },
       },
     };
   }
