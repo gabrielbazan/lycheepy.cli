@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { WpsService } from '../../../../services/wps.service';
-import { DynamicFormControlModel, DynamicInputModel } from '@ng2-dynamic-forms/core';
-import { DynamicFormService } from '@ng2-dynamic-forms/core';
+import { DynamicFormControlModel, DynamicInputModel } from '@ng-dynamic-forms/core';
+import { DynamicFormService } from '@ng-dynamic-forms/core';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 

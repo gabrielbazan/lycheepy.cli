@@ -65,7 +65,7 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
   }
 
   private setExecutions(): void {
-    this.executionsService.getList({ ordering: '-start', chain: this.id }).subscribe(
+    this.executionsService.getList({ order_by: 'start__desc', chain_id: this.id }).subscribe(
       data => {
         this.executions = data.json().results;
       },

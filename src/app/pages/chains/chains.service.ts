@@ -30,7 +30,7 @@ export class ChainsService {
   }
 
   update(id: number, properties: object) {
-    return this.http.patch(
+    return this.http.put(
       this.uri + id + '/',
       properties,
     );

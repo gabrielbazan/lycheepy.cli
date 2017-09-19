@@ -20,11 +20,11 @@ import { CswService } from '../../services/csw.service';
 
 import { ExecutionModal } from './components/execution/execution.component';
 
-import { DynamicFormsCoreModule } from '@ng2-dynamic-forms/core';
-import { DynamicFormsBootstrapUIModule } from '@ng2-dynamic-forms/ui-bootstrap';
+import { DynamicFormsCoreModule } from '@ng-dynamic-forms/core';
+import { DynamicFormsBootstrapUIModule } from '@ng-dynamic-forms/ui-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { TagInputModule } from 'ng2-tag-input';
+import { TagInputModule } from 'ngx-chips';
 
 
 @NgModule({
