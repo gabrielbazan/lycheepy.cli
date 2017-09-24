@@ -6,7 +6,7 @@ import { Chain, Execution } from '../../../../models'
 import { ExecutionModal } from '../execution/execution.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import * as go from 'gojs'
+import * as go from 'gojs';
 
 
 @Component({
@@ -84,25 +84,81 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
   private drawGraph(element) {
     const $ = go.GraphObject.make;  // for conciseness in defining templates
 
-    this.graph = $(go.Diagram, element,  // create a Diagram for the DIV HTML element
+    this.graph = $(
+      go.Diagram,
+      element,
       {
-        initialContentAlignment: go.Spot.Center,  // center the content
-        'undoManager.isEnabled': true // enable undo & redo
-      });
+        'animationManager.isEnabled': false,
+        'undoManager.isEnabled': true,
+        initialContentAlignment: go.Spot.Center,
+        'clickCreatingTool.archetypeNodeData': {
+          key: 'Node',
+          color: 'lightblue',
+        }
+      }
+    );
 
-    // define a simple Node template
-    this.graph.nodeTemplate =
-      $(go.Node, 'Auto',  // the Shape will go around the TextBlock
-        $(go.Shape, 'RoundedRectangle', { strokeWidth: 0 },
-          // Shape.fill is bound to Node.data.color
-          new go.Binding('fill', 'color')),
-        $(go.TextBlock,
-          { margin: 8 },  // some room around the text
-          // TextBlock.text is bound to Node.data.key
-          new go.Binding('text', 'key'))
+    this.graph.nodeTemplate = $(
+      go.Node,
+      'Auto',  // the Shape will go around the TextBlock
+      {
+        locationSpot: go.Spot.Center
+      },
+      new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
+      $(
+        go.Shape,
+        'RoundedRectangle',
+        {
+          stroke: null,
+          fill: 'white',
+          portId: '',
+          cursor: 'pointer',
+          strokeWidth: 0,
+          fromLinkable: true,
+          toLinkable: true,
+          fromLinkableSelfNode: false,
+          toLinkableSelfNode: false,
+          fromLinkableDuplicates: false,
+          toLinkableDuplicates: false,
+        },
+        // Shape.fill is bound to Node.data.color
+        new go.Binding('fill', 'color')
+      ),
+      $(
+        go.TextBlock,
+        {
+          margin: 8,
+          isMultiline: false,
+          editable: true,
+          cursor: 'move',
+        },  // some room around the text
+        // TextBlock.text is bound to Node.data.key
+        new go.Binding('text', 'key')
+      )
+    );
+
+    this.graph.linkTemplate = $(
+      go.Link,
+      {
+        toShortLength: 3,
+        relinkableFrom: true,
+        relinkableTo: true
+      },  // allow the user to relink existing links
+      $(
+        go.Shape,
+        {
+          strokeWidth: 2
+        },
+        new go.Binding('stroke', 'color')),
+        $(
+          go.Shape,
+          {
+            toArrow: 'Standard',
+            stroke: null,
+          },
+          new go.Binding('fill', 'color')
+        )
       );
-
-    // but use the default Link template, by not setting Diagram.linkTemplate
 
     // create the model data that will be represented by Nodes and Links
     this.graph.model = new go.GraphLinksModel(
