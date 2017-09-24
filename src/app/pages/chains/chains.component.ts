@@ -4,12 +4,4 @@ import { Component } from '@angular/core';
   selector: 'chains-component',
   template: `<router-outlet></router-outlet>`,
 })
-export class ChainsComponent {
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
-}
+export class ChainsComponent {}

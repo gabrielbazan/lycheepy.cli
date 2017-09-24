@@ -3,30 +3,7 @@
 
 <ba-card *ngIf="chain" title="Execution Graph">
 
-  <div id="network-popUp">
-    <span id="operation">node</span> <br>
-    <table style="margin:auto;">
-      <tr>
-        <td>id</td>
-        <td>
-          <input id="node-id" value="new value" />
-        </td>
-      </tr>
-      <tr>
-        <td>label</td>
-        <td>
-          <input id="node-label" value="new value" />
-        </td>
-      </tr>
-    </table>
-    <input type="button" value="save" id="saveButton" />
-    <input type="button" value="cancel" id="cancelButton" />
-  </div>
-
-  <div class="network-canvas"
-       [visNetwork]="visNetwork"
-       [visNetworkData]="visNetworkData"
-       [visNetworkOptions]="visNetworkOptions"></div>
+  <div id="graph" style="border: solid 1px black; width: 100%; height:400px"></div>
 
   <button class="btn btn-primary btn-raised" type="button" (click)="openExecutionForm()">Execute</button>
 

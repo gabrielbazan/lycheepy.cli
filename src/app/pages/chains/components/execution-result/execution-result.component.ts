@@ -42,7 +42,6 @@ export class ExecutionResultComponent implements OnInit, AfterViewInit {
     this.cswService.getExecutionResults(this.executionId).subscribe(data => {
       // TODO: Handle exception, or not results
       this.results = data['csw:GetRecordsResponse']['csw:SearchResults'][0]['csw:Record'];
-      console.log(this.results);
 
       for (const result of this.results) {
         const lowerCorner = result['ows:BoundingBox'][0]['ows:LowerCorner'][0].split(' ');

@@ -4,7 +4,8 @@ import { WpsService } from '../../../../services/wps.service';
 import { DynamicFormControlModel, DynamicInputModel } from '@ng-dynamic-forms/core';
 import { DynamicFormService } from '@ng-dynamic-forms/core';
 import { FormGroup } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { Chain } from '../../../../models'
 
 
 @Component({
@@ -14,7 +15,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ExecutionModal implements OnInit {
 
-  chain: any;
+  chain: Chain;
   description: any;
 
   formModel: DynamicFormControlModel[] = [];
@@ -72,9 +73,8 @@ export class ExecutionModal implements OnInit {
 
     this.wpsService.execute(this.chain.identifier, inputValues).subscribe(data => {
       const statusLocation = data['wps:ExecuteResponse'].$['statusLocation'];
-
       this.router.navigate(
-        ['/pages/chains/' + this.chain.id + '/executions/' + this.getExecutionId(statusLocation)],
+        [`/pages/chains/${this.chain.id}/executions/${this.getExecutionId(statusLocation)}`],
       );
     });
     this.closeModal();

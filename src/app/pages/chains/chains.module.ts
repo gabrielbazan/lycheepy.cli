@@ -10,8 +10,8 @@ import { ChainsListComponent } from './components/list/list.component';
 import { ChainsDetailComponent } from './components/detail/detail.component';
 import { ExecutionResultComponent } from './components/execution-result/execution-result.component';
 
-import { ChainsService } from './chains.service';
-import { ExecutionsService } from './executions.service';
+import { ChainsService } from '../../services/chains.service';
+import { ExecutionsService } from '../../services/executions.service';
 
 import { VisModule } from 'ng2-vis';
 

@@ -1,18 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ChainsService } from '../../chains.service';
-import { ExecutionsService } from '../../executions.service';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-
-import { VisNodes, VisNetworkService, VisNetworkData, VisNetworkOptions } from 'ng2-vis/components';
-import { DataSet, Edge } from 'vis';
-
-class NetworkData implements VisNetworkData {
-  nodes: VisNodes;
-  edges: DataSet<Edge>;
-}
-
+import { ChainsService } from '../../../../services/chains.service';
+import { ExecutionsService } from '../../../../services/executions.service';
+import { Chain, Execution } from '../../../../models'
 import { ExecutionModal } from '../execution/execution.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import * as go from 'gojs'
 
 
 @Component({
@@ -20,52 +14,53 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: 'detail.html',
   styleUrls: ['./detail.scss'],
 })
-export class ChainsDetailComponent implements OnInit, OnDestroy {
+export class ChainsDetailComponent implements OnInit, AfterViewChecked {
 
   id: number;
-  chain: any;
-  executions: any[];
+  chain: Chain;
+  executions: Execution[];
 
-  visNetwork: string = 'chainGraph';
-  visNetworkData: NetworkData;
-  visNetworkOptions: VisNetworkOptions;
+  graph: go.Diagram = null;
+  drawn = false;
 
   constructor(
     protected chainsService: ChainsService,
     private activatedRoute: ActivatedRoute,
-    private visNetworkService: VisNetworkService,
     private modalService: NgbModal,
     private executionsService: ExecutionsService,
   ) {}
 
   ngOnInit(): void {
-    this.setId();
-    this.setChainData();
-    this.setExecutions();
+    this.loadId();
+    this.loadChainData();
   }
 
-  ngOnDestroy(): void {
-    this.visNetworkService.off(this.visNetwork, 'click');
+  ngAfterViewChecked() {
+    const element = document.getElementById('graph');
+    if (!this.drawn && element) {
+      this.drawGraph(element);
+      this.drawn = true;
+    }
   }
 
-  private setId(): void {
+  private loadId(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.id = params['id'];
     });
   }
 
-  private setChainData(): void {
+  private loadChainData(): void {
     this.chainsService.get(this.id).subscribe(
       data => {
         this.chain = data.json();
-        this.draw();
+        this.loadExecutions();
       },
       err => console.error(err),
     );
   }
 
-  private setExecutions(): void {
-    this.executionsService.getList({ order_by: 'start__desc', chain_id: this.id }).subscribe(
+  private loadExecutions(): void {
+    this.executionsService.getList({ order_by: 'start__desc', chain_identifier: this.chain.identifier }).subscribe(
       data => {
         this.executions = data.json().results;
       },
@@ -79,8 +74,6 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
   }
 
   updateChain() {
-    this.getChainSteps();
-
     this.chainsService.update(this.id, this.chain).subscribe(
       data => {
         this.chain = data.json();
@@ -88,118 +81,66 @@ export class ChainsDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  getChainSteps() {
-    const steps: object[] = [];
-    this.visNetworkData.edges.forEach(function (item, id) {
-      console.log(item, id);
-    });
+  private drawGraph(element) {
+    const $ = go.GraphObject.make;  // for conciseness in defining templates
+
+    this.graph = $(go.Diagram, element,  // create a Diagram for the DIV HTML element
+      {
+        initialContentAlignment: go.Spot.Center,  // center the content
+        'undoManager.isEnabled': true // enable undo & redo
+      });
+
+    // define a simple Node template
+    this.graph.nodeTemplate =
+      $(go.Node, 'Auto',  // the Shape will go around the TextBlock
+        $(go.Shape, 'RoundedRectangle', { strokeWidth: 0 },
+          // Shape.fill is bound to Node.data.color
+          new go.Binding('fill', 'color')),
+        $(go.TextBlock,
+          { margin: 8 },  // some room around the text
+          // TextBlock.text is bound to Node.data.key
+          new go.Binding('text', 'key'))
+      );
+
+    // but use the default Link template, by not setting Diagram.linkTemplate
+
+    // create the model data that will be represented by Nodes and Links
+    this.graph.model = new go.GraphLinksModel(
+      this.getGraphNodes(),
+      this.getGraphEdges()
+    );
   }
 
-  draw() {
-    const nodesList: string[] = [];
-    const draftNodes: object[] = [];
-    const draftEdges: object[] = [];
+  private getGraphNodes(): object[] {
+    const identifiers = [];
+    const nodes = [];
 
     for (const step of this.chain.steps) {
-      if (nodesList.indexOf(step.before) === -1) {
-        nodesList.push(step.before);
+      if (identifiers.indexOf(step.before) === -1) {
+        identifiers.push(step.before);
       }
-      if (nodesList.indexOf(step.after) === -1) {
-        nodesList.push(step.after);
+      if (identifiers.indexOf(step.after) === -1) {
+        identifiers.push(step.after);
       }
-      draftEdges.push(
-        { from: step.before, to: step.after },
+    }
+
+    for (const identifier of identifiers) {
+      nodes.push(
+        { key: identifier, color: 'lightblue' }
       );
     }
 
-    for (const node of nodesList) {
-      draftNodes.push(
-        { id: node, label: node, title: node },
+    return nodes;
+  }
+
+  private getGraphEdges(): object[] {
+    const edges = [];
+    for (const step of this.chain.steps) {
+      edges.push(
+        { from: step.before, to: step.after }
       );
     }
-
-    const edges = new DataSet(draftEdges);
-    const nodes = new VisNodes(draftNodes);
-
-    this.visNetworkData = { nodes, edges };
-
-    const clearPopUp = function() {
-      console.log('clear popup');
-      document.getElementById('saveButton').onclick = null;
-      document.getElementById('cancelButton').onclick = null;
-      document.getElementById('network-popUp').style.display = 'none';
-    };
-
-    const cancelEdit = function(callback) {
-      clearPopUp();
-      callback(null);
-    };
-
-    const saveData = function(data, callback) {
-      console.log('save data');
-      data.id = (<HTMLInputElement>document.getElementById('node-id')).value;
-      data.label = (<HTMLInputElement>document.getElementById('node-label')).value;
-      clearPopUp();
-      callback(data);
-    };
-
-    this.visNetworkOptions = {
-      manipulation: {
-        addNode: function (data, callback) {
-          console.log('adding node.');
-          // filling in the popup DOM elements
-          document.getElementById('operation').innerHTML = 'Add Node';
-          (<HTMLInputElement>document.getElementById('node-id')).value = data.id;
-          (<HTMLInputElement>document.getElementById('node-label')).value = data.label;
-          document.getElementById('saveButton').onclick = saveData.bind(this, data, callback);
-          document.getElementById('cancelButton').onclick = clearPopUp;
-          document.getElementById('network-popUp').style.display = 'block';
-        },
-        editNode: function (data, callback) {
-          // filling in the popup DOM elements
-          document.getElementById('operation').innerHTML = 'Edit Node';
-          (<HTMLInputElement>document.getElementById('node-id')).value = data.id;
-          (<HTMLInputElement>document.getElementById('node-label')).value = data.label;
-          document.getElementById('saveButton').onclick = saveData.bind(this, data, callback);
-          document.getElementById('cancelButton').onclick = cancelEdit.bind(this, callback);
-          document.getElementById('network-popUp').style.display = 'block';
-        },
-        addEdge: function (data, callback) {
-          if (data.from === data.to) {
-            const r = confirm('Do you want to connect the node to itself?');
-            if (r === true) {
-              callback(data);
-            }
-          } else {
-            callback(data);
-          }
-        },
-      },
-      physics: {
-        enabled: false,
-      },
-      layout: {
-        hierarchical: {
-          sortMethod: 'directed',
-          direction: 'LR',  // UD
-        },
-      },
-      edges: {
-        smooth: false,
-        arrows: 'to',
-      },
-      nodes: {
-        color: '#209e91',
-        shape: 'box',
-        shapeProperties: {
-          borderRadius: 0,
-          borderDashes: false,
-          interpolation: false,
-          useImageSize: false,
-          useBorderWithImage: false,
-        },
-      },
-    };
+    return edges;
   }
 
 }

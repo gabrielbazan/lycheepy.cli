@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ChainsService } from '../../chains.service';
+import { ChainsService } from '../../../../services/chains.service';
+import { Chain } from '../../../../models'
 
 
 @Component({
@@ -9,7 +10,7 @@ import { ChainsService } from '../../chains.service';
 })
 export class ChainsListComponent {
 
-  chains: object[];
+  chains: Chain[];
 
   constructor(protected service: ChainsService) {
     this.service.getList().subscribe(
