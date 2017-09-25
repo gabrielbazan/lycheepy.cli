@@ -83,7 +83,7 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
   }
 
   private drawGraph(element) {
-    const $ = go.GraphObject.make;  // for conciseness in defining templates
+    const $ = go.GraphObject.make;
 
     this.graph = $(
       go.Diagram,

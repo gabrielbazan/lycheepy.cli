@@ -161,12 +161,20 @@ export class Inspector {
 
     // Go through all the properties passed in to the inspector and show them, if appropriate:
     for (const k in declaredProperties) {
-      var val = (<any>declaredProperties)[k];
-      if (!this.canShowProperty(k, val, inspectedObject)) continue;
-      var defaultValue = '';
-      if (val.defaultValue !== undefined) defaultValue = val.defaultValue;
-      if (data[k] !== undefined) defaultValue = data[k];
-      tbody.appendChild(this.buildPropertyRow(k, defaultValue || ''));
+      if (declaredProperties.hasOwnProperty(k)) {
+        const val = (<any>declaredProperties)[k];
+        if (!this.canShowProperty(k, val, inspectedObject)) {
+          continue;
+        }
+        let defaultValue = '';
+        if (val.defaultValue !== undefined) {
+          defaultValue = val.defaultValue;
+        }
+        if (data[k] !== undefined) {
+          defaultValue = data[k];
+        }
+        tbody.appendChild(this.buildPropertyRow(k, defaultValue || ''));
+      }
     }
 
     // Go through all the properties on the model data and show them, if appropriate:
@@ -343,14 +351,30 @@ export class Inspector {
    * @return {string}
    */
   convertToString(x: any): string {
-    if (x === undefined) return 'undefined';
-    if (x === null) return 'null';
-    if (x instanceof go.Point) return go.Point.stringify(x);
-    if (x instanceof go.Size) return go.Size.stringify(x);
-    if (x instanceof go.Rect) return go.Rect.stringify(x);
-    if (x instanceof go.Spot) return go.Spot.stringify(x);
-    if (x instanceof go.Margin) return go.Margin.stringify(x);
-    if (x instanceof go.List) return this.convertToString(x.toArray());
+    if (x === undefined) {
+      return 'undefined';
+    }
+    if (x === null) {
+      return 'null';
+    }
+    if (x instanceof go.Point) {
+      return go.Point.stringify(x);
+    }
+    if (x instanceof go.Size) {
+      return go.Size.stringify(x);
+    }
+    if (x instanceof go.Rect) {
+      return go.Rect.stringify(x);
+    }
+    if (x instanceof go.Spot) {
+      return go.Spot.stringify(x);
+    }
+    if (x instanceof go.Margin) {
+      return go.Margin.stringify(x);
+    }
+    if (x instanceof go.List) {
+      return this.convertToString(x.toArray());
+    }
     if (Array.isArray(x)) {
       let str = '';
       for (let i = 0; i < x.length; i++) {
@@ -363,7 +387,7 @@ export class Inspector {
       return str;
     }
     return x.toString();
-  };
+  }
 
   /**
    * @ignore
@@ -376,22 +400,25 @@ export class Inspector {
     const data = isPart ? (<any>this.inspectedObject).data : this.inspectedObject;
     if (!data) {  // clear out all of the fields
       for (const name in inspectedProps) {
-        var input = (<any>inspectedProps)[name];
-        if (input.type === 'color') {
-          input.value = '#000000';
-        } else {
-          input.value = '';
+        if (inspectedProps.hasOwnProperty(name)) {
+          const input = (<any>inspectedProps)[name];
+          if (input.type === 'color') {
+            input.value = '#000000';
+          } else {
+            input.value = '';
+          }
         }
-
       }
     } else {
-      for (var name in inspectedProps) {
-        var input = (<any>inspectedProps)[name];
-        var propertyValue = data[name];
-        if (input.type === 'color') {
-          input.value = this.convertToColor(propertyValue);
-        } else {
-          input.value = this.convertToString(propertyValue);
+      for (const name in inspectedProps) {
+        if (inspectedProps.hasOwnProperty(name)) {
+          const input = (<any>inspectedProps)[name];
+          const propertyValue = data[name];
+          if (input.type === 'color') {
+            input.value = this.convertToColor(propertyValue);
+          } else {
+            input.value = this.convertToString(propertyValue);
+          }
         }
       }
     }
@@ -411,53 +438,67 @@ export class Inspector {
     } // must not try to update data when there's no data!
 
     diagram.startTransaction('set all properties');
-    for (var name in inspectedProps) {
-      var value = (<any>inspectedProps)[name].value;
+    for (const name in inspectedProps) {
+      if (inspectedProps.hasOwnProperty(name)) {
+        let value = (<any>inspectedProps)[name].value;
 
-      // don't update 'readOnly' data properties
-      var decProp = (<any>this.declaredProperties)[name];
-      if (!this.canEditProperty(name, decProp, this.inspectedObject)) continue;
+        // don't update 'readOnly' data properties
+        const decProp = (<any>this.declaredProperties)[name];
+        if (!this.canEditProperty(name, decProp, this.inspectedObject)) {
+          continue;
+        }
 
-      // If it's a boolean, or if its previous value was boolean,
-      // parse the value to be a boolean and then update the input.value to match
-      var type = '';
-      if (decProp !== undefined && decProp.type !== undefined) {
-        type = decProp.type;
+        // If it's a boolean, or if its previous value was boolean,
+        // parse the value to be a boolean and then update the input.value to match
+        let type = '';
+        if (decProp !== undefined && decProp.type !== undefined) {
+          type = decProp.type;
+        }
+        if (type === '') {
+          const oldval = data[name];
+          if (typeof oldval === 'boolean') {
+            type = 'boolean'; // infer boolean
+          } else if (typeof oldval === 'number') {
+            type = 'number';
+          } else if (oldval instanceof go.Point) {
+            type = 'point';
+          } else if (oldval instanceof go.Size) {
+            type = 'size';
+          } else if (oldval instanceof go.Rect) {
+            type = 'rect';
+          } else if (oldval instanceof go.Spot) {
+            type = 'spot';
+          } else if (oldval instanceof go.Margin) {
+            type = 'margin';
+          }
+        }
+
+        // convert to specific type, if needed
+        switch (type) {
+          case 'boolean':
+            value = !(value === false || value === 'false' || value === '0');
+            break;
+          case 'number': value = parseFloat(value); break;
+          case 'arrayofnumber': value = this.convertToArrayOfNumber(value); break;
+          case 'point': value = go.Point.parse(value); break;
+          case 'size': value = go.Size.parse(value); break;
+          case 'rect': value = go.Rect.parse(value); break;
+          case 'spot': value = go.Spot.parse(value); break;
+          case 'margin': value = go.Margin.parse(value); break;
+        }
+
+        // in case parsed to be different, such as in the case of boolean values,
+        // the value shown should match the actual value
+        (<any>inspectedProps)[name].value = value;
+
+        // modify the data object in an undo-able fashion
+        diagram.model.setDataProperty(data, name, value);
+
+        // notify any listener
+        if (this.propertyModified !== null) {
+          this.propertyModified(name, value);
+        }
       }
-      if (type === '') {
-        var oldval = data[name];
-        if (typeof oldval === 'boolean') type = 'boolean'; // infer boolean
-        else if (typeof oldval === 'number') type = 'number';
-        else if (oldval instanceof go.Point) type = 'point';
-        else if (oldval instanceof go.Size) type = 'size';
-        else if (oldval instanceof go.Rect) type = 'rect';
-        else if (oldval instanceof go.Spot) type = 'spot';
-        else if (oldval instanceof go.Margin) type = 'margin';
-      }
-
-      // convert to specific type, if needed
-      switch (type) {
-        case 'boolean':
-          value = !(value == false || value === 'false' || value === '0');
-          break;
-        case 'number': value = parseFloat(value); break;
-        case 'arrayofnumber': value = this.convertToArrayOfNumber(value); break;
-        case 'point': value = go.Point.parse(value); break;
-        case 'size': value = go.Size.parse(value); break;
-        case 'rect': value = go.Rect.parse(value); break;
-        case 'spot': value = go.Spot.parse(value); break;
-        case 'margin': value = go.Margin.parse(value); break;
-      }
-
-      // in case parsed to be different, such as in the case of boolean values,
-      // the value shown should match the actual value
-      (<any>inspectedProps)[name].value = value;
-
-      // modify the data object in an undo-able fashion
-      diagram.model.setDataProperty(data, name, value);
-
-      // notify any listener
-      if (this.propertyModified !== null) this.propertyModified(name, value);
     }
     diagram.commitTransaction('set all properties');
   }
