@@ -13,8 +13,6 @@ import { ExecutionResultComponent } from './components/execution-result/executio
 import { ChainsService } from '../../services/chains.service';
 import { ExecutionsService } from '../../services/executions.service';
 
-import { VisModule } from 'ng2-vis';
-
 import { WpsService } from '../../services/wps.service';
 import { CswService } from '../../services/csw.service';
 
@@ -33,7 +31,6 @@ import { TagInputModule } from 'ngx-chips';
     FormsModule,
     NgaModule,
     routing,
-    VisModule,
     NgbModalModule,
     DynamicFormsCoreModule.forRoot(),
     DynamicFormsBootstrapUIModule,
