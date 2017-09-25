@@ -7,6 +7,7 @@ import { ExecutionModal } from '../execution/execution.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as go from 'gojs';
+import { Inspector } from './data.inspector'
 
 
 @Component({
@@ -37,9 +38,9 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     const element = document.getElementById('graph');
-    if (!this.drawn && element) {
-      this.drawGraph(element);
+    if (element && !this.drawn) {
       this.drawn = true;
+      this.drawGraph(element);
     }
   }
 
@@ -94,7 +95,8 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
         'clickCreatingTool.archetypeNodeData': {
           key: 'Node',
           color: 'lightblue',
-        }
+        },
+        layout: $(go.LayeredDigraphLayout)
       }
     );
 
@@ -165,6 +167,31 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
       this.getGraphNodes(),
       this.getGraphEdges()
     );
+
+    this.graph.select(this.graph.nodes.first());
+
+    const inspector = new Inspector(
+      'inspector',
+      this.graph,
+      {
+        // uncomment this line to only inspect the named properties below instead of all properties on each object:
+        includesOwnProperties: true,
+        properties: {
+          'text': {},
+          // key would be automatically added for nodes, but we want to declare it read-only also:
+          'key': {
+            readOnly: true,
+            show: Inspector.prototype.showIfPresent(this.graph.selection.first(), 'key')
+          },
+          // Comments and LinkComments are not in any node or link data (yet), so we add them here:
+          'Comments': {
+            show: Inspector.prototype.showIfNode(this.graph.selection.first())
+          },
+          'LinkComments': {
+            show: Inspector.prototype.showIfLink(this.graph.selection.first())
+          }
+        }
+      });
   }
 
   private getGraphNodes(): object[] {
@@ -193,7 +220,7 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
     const edges = [];
     for (const step of this.chain.steps) {
       edges.push(
-        { from: step.before, to: step.after }
+        { from: step.before, to: step.after, publish: step.publish, match: step.match }
       );
     }
     return edges;
