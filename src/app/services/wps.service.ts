@@ -82,7 +82,6 @@ export class WpsService {
           '@xmlns:xlink': 'http://www.w3.org/1999/xlink',
           '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
           '@xsi:schemaLocation': 'http://www.opengis.net/wps/1.0.0 ../wpsExecute_request.xsd',
-
           'ows:Identifier': {
             '#text': identifier,
           },

@@ -14,8 +14,8 @@ export class ChainsListComponent {
 
   constructor(protected service: ChainsService) {
     this.service.getList().subscribe(
-      data => {
-        this.chains = data.json().results;
+      chains => {
+        this.chains = chains;
       },
       err => console.error(err),
     );

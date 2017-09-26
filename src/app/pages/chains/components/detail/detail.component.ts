@@ -52,8 +52,8 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
 
   private loadChainData(): void {
     this.chainsService.get(this.id).subscribe(
-      data => {
-        this.chain = data.json();
+      chain => {
+        this.chain = chain;
         this.loadExecutions();
       },
       err => console.error(err),
@@ -76,8 +76,8 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
 
   updateChain() {
     this.chainsService.update(this.id, this.chain).subscribe(
-      data => {
-        this.chain = data.json();
+      chain => {
+        this.chain = chain;
       },
     );
   }
@@ -191,28 +191,20 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
             show: Inspector.prototype.showIfLink(this.graph.selection.first())
           }
         }
-      });
+      }
+    );
   }
 
   private getGraphNodes(): object[] {
-    const identifiers = [];
     const nodes = [];
-
-    for (const step of this.chain.steps) {
-      if (identifiers.indexOf(step.before) === -1) {
-        identifiers.push(step.before);
-      }
-      if (identifiers.indexOf(step.after) === -1) {
-        identifiers.push(step.after);
-      }
-    }
-
-    for (const identifier of identifiers) {
+    for (const identifier of this.chain.getProcessesIdentifiers()) {
       nodes.push(
-        { key: identifier, color: 'lightblue' }
+        {
+          key: identifier,
+          color: 'lightblue'
+        }
       );
     }
-
     return nodes;
   }
 
@@ -220,7 +212,12 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
     const edges = [];
     for (const step of this.chain.steps) {
       edges.push(
-        { from: step.before, to: step.after, publish: step.publish, match: step.match }
+        {
+          from: step.before,
+          to: step.after,
+          publish: step.publish,
+          match: step.match
+        }
       );
     }
     return edges;
