@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Settings } from '../settings';
-import { Execution } from '../models'
+import { Process, Input, Output } from '../models'
 
 
 @Injectable()
-export class ExecutionsService {
+export class ProcessesService {
   private uri: string;
 
   constructor(private http: Http) {
-    this.uri = `${Settings.API_ENDPOINT}executions/`;
+    this.uri = `${Settings.API_ENDPOINT}processes/`;
   }
 
   getList(filter) {
@@ -21,7 +21,9 @@ export class ExecutionsService {
       }
     }
 
-    return this.http.get(this.uri, new RequestOptions({ search })).map(
+    return this.http.get(
+      this.uri, new RequestOptions({ search })
+    ).map(
       (res: Response) => this.deserializeList(res.json().results)
     );
   }
@@ -34,21 +36,33 @@ export class ExecutionsService {
     );
   }
 
-  private deserializeList(list: object[]): Execution[] {
-    const serialized: Execution[] = [];
+  update(id: number, properties: object) {
+    return this.http.put(
+      `${this.uri}${id}/`,
+      properties,
+    ).map(
+      (res: Response) => this.deserialize(res.json())
+    );
+  }
+
+  private deserializeList(list: object[]): Process[] {
+    const serialized: Process[] = [];
     for (const o of list) {
       serialized.push(this.deserialize(o));
     }
     return serialized;
   }
 
-  private deserialize(o: object): Execution {
-    return new Execution(
+  private deserialize(o: object): Process {
+    return new Process(
       o['id'],
-      o['chainIdentifier'],
-      o['start'],
-      o['end'],
-      o['status']
+      o['identifier'],
+      o['title'],
+      o['abstract'],
+      o['version'],
+      <string[]> o['metadata'],
+      <Input[]> o['inputs'],
+      <Output[]> o['outputs']
     );
   }
 }

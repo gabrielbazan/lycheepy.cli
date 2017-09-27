@@ -1,47 +1,45 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ChainsService } from '../../../../services/chains.service';
 import { ExecutionsService } from '../../../../services/executions.service';
-import { Chain, Execution } from '../../../../models'
+import { ProcessesService } from '../../../../services/processes.service';
+import { Chain, Execution, Process } from '../../../../models'
 import { ExecutionModal } from '../execution/execution.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as go from 'gojs';
-import { Inspector } from './data.inspector'
+import { DiagramObserver } from './graph.editor'
 
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'chains-detail-component',
   templateUrl: 'detail.html',
   styleUrls: ['./detail.scss'],
 })
-export class ChainsDetailComponent implements OnInit, AfterViewChecked {
+export class ChainsDetailComponent implements OnInit {
 
   id: number;
   chain: Chain;
+  processes: object = {};
   executions: Execution[];
 
-  graph: go.Diagram = null;
-  drawn = false;
+  diagram: go.Diagram = null;
+  graph: DiagramObserver;
 
   constructor(
     protected chainsService: ChainsService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private executionsService: ExecutionsService,
+    private processesService: ProcessesService
   ) {}
 
   ngOnInit(): void {
     this.loadId();
     this.loadChainData();
-  }
-
-  ngAfterViewChecked() {
-    const element = document.getElementById('graph');
-    if (element && !this.drawn) {
-      this.drawn = true;
-      this.drawGraph(element);
-    }
   }
 
   private loadId(): void {
@@ -54,7 +52,20 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
     this.chainsService.get(this.id).subscribe(
       chain => {
         this.chain = chain;
+        this.loadProcesses();
         this.loadExecutions();
+      },
+      err => console.error(err),
+    );
+  }
+
+  private loadProcesses(): void {
+    this.processesService.getList({ identifier__in: this.chain.getProcessesIdentifiers().join(';') }).subscribe(
+      processes => {
+        for (const process of processes) {
+          this.processes[process.identifier] = process;
+        }
+        this.drawGraph();
       },
       err => console.error(err),
     );
@@ -62,8 +73,8 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
 
   private loadExecutions(): void {
     this.executionsService.getList({ order_by: 'start__desc', chain_identifier: this.chain.identifier }).subscribe(
-      data => {
-        this.executions = data.json().results;
+      executions => {
+        this.executions = executions;
       },
       err => console.error(err),
     );
@@ -82,10 +93,11 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  private drawGraph(element) {
+  private drawGraph() {
+    const element = document.getElementById('graph');
     const $ = go.GraphObject.make;
 
-    this.graph = $(
+    this.diagram = $(
       go.Diagram,
       element,
       {
@@ -100,7 +112,7 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
       }
     );
 
-    this.graph.nodeTemplate = $(
+    this.diagram.nodeTemplate = $(
       go.Node,
       'Auto',  // the Shape will go around the TextBlock
       {
@@ -139,7 +151,7 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
       )
     );
 
-    this.graph.linkTemplate = $(
+    this.diagram.linkTemplate = $(
       go.Link,
       {
         toShortLength: 3,
@@ -163,36 +175,14 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
       );
 
     // create the model data that will be represented by Nodes and Links
-    this.graph.model = new go.GraphLinksModel(
+    this.diagram.model = new go.GraphLinksModel(
       this.getGraphNodes(),
       this.getGraphEdges()
     );
 
-    this.graph.select(this.graph.nodes.first());
+    this.diagram.select(this.diagram.nodes.first());
 
-    const inspector = new Inspector(
-      'inspector',
-      this.graph,
-      {
-        // uncomment this line to only inspect the named properties below instead of all properties on each object:
-        includesOwnProperties: true,
-        properties: {
-          'text': {},
-          // key would be automatically added for nodes, but we want to declare it read-only also:
-          'key': {
-            readOnly: true,
-            show: Inspector.prototype.showIfPresent(this.graph.selection.first(), 'key')
-          },
-          // Comments and LinkComments are not in any node or link data (yet), so we add them here:
-          'Comments': {
-            show: Inspector.prototype.showIfNode(this.graph.selection.first())
-          },
-          'LinkComments': {
-            show: Inspector.prototype.showIfLink(this.graph.selection.first())
-          }
-        }
-      }
-    );
+    this.initializeEditor();
   }
 
   private getGraphNodes(): object[] {
@@ -216,11 +206,17 @@ export class ChainsDetailComponent implements OnInit, AfterViewChecked {
           from: step.before,
           to: step.after,
           publish: step.publish,
-          match: step.match
+          match: step.match,
+          before: this.processes[step.before],
+          after: this.processes[step.after]
         }
       );
     }
     return edges;
+  }
+
+  private initializeEditor() {
+    this.graph = new DiagramObserver(this.diagram);
   }
 
 }

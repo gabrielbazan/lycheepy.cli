@@ -12,6 +12,7 @@ import { ExecutionResultComponent } from './components/execution-result/executio
 
 import { ChainsService } from '../../services/chains.service';
 import { ExecutionsService } from '../../services/executions.service';
+import { ProcessesService } from '../../services/processes.service';
 
 import { WpsService } from '../../services/wps.service';
 import { CswService } from '../../services/csw.service';
@@ -49,6 +50,7 @@ import { TagInputModule } from 'ngx-chips';
     WpsService,
     CswService,
     ExecutionsService,
+    ProcessesService,
   ],
   entryComponents: [ExecutionModal],
 })

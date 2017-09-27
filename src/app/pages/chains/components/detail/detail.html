@@ -1,9 +1,36 @@
 <ba-card *ngIf="chain" title="Execution Graph">
 
   <div class="row" style="height: 400px;">
-    <div id="graph" class="col-lg-8 col-md-8">
+    <div id="graph" class="col-lg-7 col-md-7">
     </div>
-    <div id="inspector" class="col-lg-4 col-md-4">
+    <div *ngIf="graph && graph.editor" class="col-lg-5 col-md-5">
+      <div *ngIf="graph.isNode" id="node">
+        <div class="form-group">
+          <label for="process">Process</label>
+          <input type="text" id="process" class="form-control" placeholder="Process" [(ngModel)]='graph.editor.part.data.key' disabled>
+        </div>
+      </div>
+      <div *ngIf="graph.isLink" id="link">
+        <div class="form-group">
+          <label for="process">Before</label>
+          <input type="text" id="before" class="form-control" placeholder="Before" [(ngModel)]='graph.editor.part.data.from' disabled>
+        </div>
+        <div class="form-group">
+          <label for="process">After</label>
+          <input type="text" id="after" class="form-control" placeholder="After" [(ngModel)]='graph.editor.part.data.to' disabled>
+        </div>
+        <tag-input [(ngModel)]='graph.editor.part.data.publish'
+                   [editable]='true'
+                   [onlyFromAutocomplete]='true'
+                   theme='minimal'
+                   placeholder="+ Output"
+                   secondaryPlaceholder="Select products"
+                   modelAsStrings='true'>
+          <tag-input-dropdown [showDropdownIfEmpty]="true"
+                              [autocompleteItems]="graph.editor.outputs">
+          </tag-input-dropdown>
+        </tag-input>
+      </div>
     </div>
   </div>
 

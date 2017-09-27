@@ -207,7 +207,7 @@ export class Inspector {
    * @param {Object} inspectedObject the data object
    * @return {boolean} whether a particular property should be shown in this Inspector
    */
-  canShowProperty(propertyName: string, propertyDesc: any, inspectedObject: Object): boolean {
+  private canShowProperty(propertyName: string, propertyDesc: any, inspectedObject: Object): boolean {
     if (propertyDesc.show === false) {
       return false;
     }
@@ -228,7 +228,7 @@ export class Inspector {
    * @param {Object} inspectedObject the data object
    * @return {boolean} whether a particular property should be shown in this Inspector
    */
-  canEditProperty(propertyName: string, propertyDesc: any, inspectedObject: Object): boolean {
+  private canEditProperty(propertyName: string, propertyDesc: any, inspectedObject: Object): boolean {
     // assume property values that are functions of Objects cannot be edited
     const data = (inspectedObject instanceof go.Part) ? inspectedObject.data : inspectedObject;
     const valtype = typeof data[propertyName];
@@ -258,7 +258,7 @@ export class Inspector {
    * @param {*} propertyValue the property value
    * @return the table row
    */
-  buildPropertyRow(propertyName: string, propertyValue: any): HTMLTableRowElement {
+  private buildPropertyRow(propertyName: string, propertyValue: any): HTMLTableRowElement {
     const mainDiv = this._div;
     const tr = document.createElement('tr');
 
@@ -318,7 +318,7 @@ export class Inspector {
    * @param {string} propertyValue
    * @return {string}
    */
-  convertToColor(propertyValue: string): string {
+  private convertToColor(propertyValue: string): string {
     const ctx = document.createElement('canvas').getContext('2d');
     ctx.fillStyle = propertyValue;
     return ctx.fillStyle;
@@ -329,7 +329,7 @@ export class Inspector {
    * @param {string}
    * @return {Array.<number>}
    */
-  convertToArrayOfNumber(propertyValue: string): Array<number> {
+  private convertToArrayOfNumber(propertyValue: string): Array<number> {
     if (propertyValue === 'null') {
       return null;
     }
@@ -350,7 +350,7 @@ export class Inspector {
    * @param {*}
    * @return {string}
    */
-  convertToString(x: any): string {
+  private convertToString(x: any): string {
     if (x === undefined) {
       return 'undefined';
     }
@@ -393,7 +393,7 @@ export class Inspector {
    * @ignore
    * Update all of the HTML in this Inspector.
    */
-  updateAllHTML() {
+  private updateAllHTML() {
     const inspectedProps = this._inspectedProperties;
     const diagram = this._diagram;
     const isPart = this.inspectedObject instanceof go.Part;
@@ -428,7 +428,7 @@ export class Inspector {
    * Update all of the data properties of {@link #inspectedObject} according to the
    * current values held in the HTML input elements.
    */
-  updateAllProperties() {
+  private updateAllProperties() {
     const inspectedProps = this._inspectedProperties;
     const diagram = this._diagram;
     const isPart = this.inspectedObject instanceof go.Part;
