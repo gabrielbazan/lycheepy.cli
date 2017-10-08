@@ -43,7 +43,8 @@ export class Chain extends Executable {
     public abstract: string,
     public version: string,
     public metadata: string[],
-    public steps: Step[]
+    public steps: Step[],
+    public publish: object
   ) {
     super(id, identifier, title, abstract, version, metadata)
   }
@@ -65,13 +66,7 @@ export class Chain extends Executable {
 export class Step {
   before: string;
   after: string;
-  match: Match[];
-  publish: string[];
-}
-
-export class Match {
-  output: string;
-  input: string;
+  match: object;
 }
 
 export class Execution {

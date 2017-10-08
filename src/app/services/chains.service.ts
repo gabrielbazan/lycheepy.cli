@@ -53,7 +53,8 @@ export class ChainsService {
       o['abstract'],
       o['version'],
       <string[]> o['metadata'],
-      <Step[]> o['steps']
+      <Step[]> o['steps'],
+      o['publish']
     );
   }
 }

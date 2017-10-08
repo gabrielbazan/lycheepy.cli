@@ -1,46 +1,6 @@
-<ba-card *ngIf="chain" title="Execution Graph">
+<ba-card *ngIf="chain" title="Execution Graph and Metadata">
 
-  <div class="row" style="height: 400px;">
-    <div id="graph" class="col-lg-7 col-md-7">
-    </div>
-    <div *ngIf="graph && graph.editor" class="col-lg-5 col-md-5">
-      <div *ngIf="graph.isNode" id="node">
-        <div class="form-group">
-          <label for="process">Process</label>
-          <input type="text" id="process" class="form-control" placeholder="Process" [(ngModel)]='graph.editor.part.data.key' disabled>
-        </div>
-      </div>
-      <div *ngIf="graph.isLink" id="link">
-        <div class="form-group">
-          <label for="process">Before</label>
-          <input type="text" id="before" class="form-control" placeholder="Before" [(ngModel)]='graph.editor.part.data.from' disabled>
-        </div>
-        <div class="form-group">
-          <label for="process">After</label>
-          <input type="text" id="after" class="form-control" placeholder="After" [(ngModel)]='graph.editor.part.data.to' disabled>
-        </div>
-        <tag-input [(ngModel)]='graph.editor.part.data.publish'
-                   [editable]='true'
-                   [onlyFromAutocomplete]='true'
-                   theme='minimal'
-                   placeholder="+ Output"
-                   secondaryPlaceholder="Select products"
-                   modelAsStrings='true'>
-          <tag-input-dropdown [showDropdownIfEmpty]="true"
-                              [autocompleteItems]="graph.editor.outputs">
-          </tag-input-dropdown>
-        </tag-input>
-        <div id="matchingGraph" style="width: 100%; height: 200px;"></div>
-      </div>
-    </div>
-  </div>
-
-  <button class="btn btn-primary btn-raised" type="button" (click)="openExecutionForm()">Execute</button>
-
-</ba-card>
-
-
-<ba-card *ngIf="chain" title="Chain Metadata">
+  <div id="graph" class="row" style="height: 300px;"></div>
 
   <tag-input [(ngModel)]='chain.metadata'
              theme='minimal'
@@ -63,6 +23,8 @@
   </div>
 
   <button class="btn btn-primary btn-raised" type="button" (click)="updateChain()">Save</button>
+
+  <button class="btn btn-primary btn-raised" type="button" (click)="openExecutionForm()">Execute</button>
 
 </ba-card>
 
