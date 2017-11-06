@@ -18,12 +18,15 @@ import { WpsService } from '../../services/wps.service';
 import { CswService } from '../../services/csw.service';
 
 import { ExecutionModal } from './components/execution/execution.component';
+import { AddProcess } from './components/add-process/add-process.component';
 
 import { DynamicFormsCoreModule } from '@ng-dynamic-forms/core';
 import { DynamicFormsBootstrapUIModule } from '@ng-dynamic-forms/ui-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TagInputModule } from 'ngx-chips';
+
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 
 @NgModule({
@@ -37,6 +40,7 @@ import { TagInputModule } from 'ngx-chips';
     DynamicFormsBootstrapUIModule,
     ReactiveFormsModule,
     TagInputModule,
+    NguiAutoCompleteModule
   ],
   declarations: [
     ChainsComponent,
@@ -44,6 +48,7 @@ import { TagInputModule } from 'ngx-chips';
     ChainsDetailComponent,
     ExecutionModal,
     ExecutionResultComponent,
+    AddProcess,
   ],
   providers: [
     ChainsService,
@@ -52,6 +57,6 @@ import { TagInputModule } from 'ngx-chips';
     ExecutionsService,
     ProcessesService,
   ],
-  entryComponents: [ExecutionModal],
+  entryComponents: [ExecutionModal, AddProcess],
 })
 export class ChainsModule {}

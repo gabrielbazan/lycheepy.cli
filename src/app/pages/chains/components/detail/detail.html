@@ -2,6 +2,10 @@
 
   <div id="graph" class="row" style="height: 300px;"></div>
 
+  <button class="btn btn-primary btn-raised" type="button" (click)="addProcess()" style="margin-bottom: 15px;">
+    Add process
+  </button>
+
   <tag-input [(ngModel)]='chain.metadata'
              theme='minimal'
              placeholder="+ Metadata"

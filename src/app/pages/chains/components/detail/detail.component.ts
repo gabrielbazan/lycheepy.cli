@@ -5,6 +5,7 @@ import { ExecutionsService } from '../../../../services/executions.service';
 import { ProcessesService } from '../../../../services/processes.service';
 import { Chain, Execution, Process, Step } from '../../../../models'
 import { ExecutionModal } from '../execution/execution.component';
+import { AddProcess } from '../add-process/add-process.component'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as go from 'gojs';
@@ -12,6 +13,7 @@ import * as go from 'gojs';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/map';
+
 
 @Component({
   selector: 'chains-detail-component',
@@ -81,8 +83,8 @@ export class ChainsDetailComponent implements OnInit {
   }
 
   openExecutionForm() {
-    const activeModal = this.modalService.open(ExecutionModal, { size: 'lg' });
-    activeModal.componentInstance.chain = this.chain;
+    const modal = this.modalService.open(ExecutionModal, { size: 'lg' });
+    modal.componentInstance.chain = this.chain;
   }
 
   updateChain() {
@@ -407,4 +409,17 @@ export class ChainsDetailComponent implements OnInit {
     }
     return publish;
   }
+
+  addProcess() {
+    const modal = this.modalService.open(AddProcess, { size: 'sm' });
+    const self = this;
+    modal.result.then((process) => {
+      if (process) {
+        this.diagram.model.addNodeData(
+          self.getNode(process)
+        );
+      }
+    });
+  }
+
 }
