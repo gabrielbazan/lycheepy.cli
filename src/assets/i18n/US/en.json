@@ -10,7 +10,6 @@
   "general": {
     "home": "Home",
     "menu": {
-      "dashboard": "Dashboard",
       "maps": "Maps",
       "leaflet_maps": "Leaflet Maps",
       "pages": "Pages",
@@ -20,12 +19,6 @@
       "chains_create": "New Chain",
       "processes": "Processes",
       "processes_create": "New Process"
-    }
-  },
-  "dashboard": {
-    "acquisition_channels": "Acquisition Channels",
-    "traffic_chart": {
-      "view_total": "Views Total"
     }
   }
 }

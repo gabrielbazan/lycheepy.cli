@@ -29,7 +29,7 @@ export class Login {
     this.submitted = true;
     if (this.form.valid) {
       // TODO: Authenticate
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/chains']);
     }
   }
 }

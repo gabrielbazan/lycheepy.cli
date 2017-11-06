@@ -8,7 +8,6 @@ export class BaThemeConfigProvider {
 
   private basic: any;
   private colorScheme: any;
-  private dashboardColors: any;
   private conf: any;
 
   constructor() {
@@ -26,15 +25,6 @@ export class BaThemeConfigProvider {
       success: '#8bd22f',
       warning: '#e7ba08',
       danger: '#f95372',
-    };
-
-    // dashboard colors for charts
-    this.dashboardColors = {
-      blueStone: '#40daf1',
-      surfieGreen: '#00abff',
-      silverTree: '#1b70ef',
-      gossip: '#3c4eb9',
-      white: '#ffffff',
     };
 
     this.conf = {
@@ -65,18 +55,7 @@ export class BaThemeConfigProvider {
         warningDark: colorHelper.shade(this.colorScheme.warning, 15),
         dangerDark: colorHelper.shade(this.colorScheme.danger, 15),
 
-        dashboard: {
-          blueStone: this.dashboardColors.blueStone,
-          surfieGreen: this.dashboardColors.surfieGreen,
-          silverTree: this.dashboardColors.silverTree,
-          gossip: this.dashboardColors.gossip,
-          white: this.dashboardColors.white,
-        },
-
-        custom: {
-          dashboardPieChart: colorHelper.hexToRgbA(this.basic.defaultText, 0.8),
-          dashboardLineChart: this.basic.defaultText,
-        }
+        custom: {}
       }
     };
   }
