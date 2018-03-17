@@ -9,7 +9,7 @@ export class ChainsService {
   private uri: string;
 
   constructor(private http: Http) {
-    this.uri = `${Settings.API_ENDPOINT}chains/`;
+    this.uri = `${Settings.CONFIGURATION_ENDPOINT}chains/`;
   }
 
   getList() {

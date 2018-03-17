@@ -9,7 +9,7 @@ export class ExecutionsService {
   private uri: string;
 
   constructor(private http: Http) {
-    this.uri = `${Settings.API_ENDPOINT}executions/`;
+    this.uri = `${Settings.EXECUTIONS_ENDPOINT}executions/`;
   }
 
   getList(filter) {
@@ -48,7 +48,7 @@ export class ExecutionsService {
       o['chainIdentifier'],
       o['start'],
       o['end'],
-      o['status']
+      o['status']['name']
     );
   }
 }

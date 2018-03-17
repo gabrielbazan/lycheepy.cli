@@ -9,7 +9,7 @@ export class ProcessesService {
   private uri: string;
 
   constructor(private http: Http) {
-    this.uri = `${Settings.API_ENDPOINT}processes/`;
+    this.uri = `${Settings.CONFIGURATION_ENDPOINT}processes/`;
   }
 
   getList(filter) {
