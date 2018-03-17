@@ -1,10 +1,13 @@
-<ba-card *ngIf="chain" title="Execution Graph and Metadata">
+<ba-card *ngIf="chain" title="Execution Graph">
 
   <div id="graph" class="row" style="height: 300px;"></div>
 
   <button class="btn btn-primary btn-raised" type="button" (click)="addProcess()" style="margin-bottom: 15px;">
     Add process
   </button>
+</ba-card>
+
+<ba-card *ngIf="chain" title="Metadata">
 
   <tag-input [(ngModel)]='chain.metadata'
              theme='minimal'
