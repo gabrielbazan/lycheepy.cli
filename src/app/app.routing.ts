@@ -3,7 +3,7 @@ import { ModuleWithProviders } from '@angular/core';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages/chains' },
+  { path: 'chains', redirectTo: 'pages/chains' },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true });

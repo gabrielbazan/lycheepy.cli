@@ -6,9 +6,10 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { routing } from './chains.routing';
 import { ChainsComponent } from './chains.component';
-import { ChainsListComponent } from './components/list/list.component';
-import { ChainsEditionComponent } from './components/edition/edition.component';
-import { ExecutionResultComponent } from './components/execution-result/execution-result.component';
+import { ChainsListComponent } from './components/list';
+import { ChainsCreationComponent } from './components/creation';
+import { ChainsEditionComponent } from './components/edition';
+import { ExecutionResultComponent } from './components/execution-result';
 
 import { ChainsService } from '../../services/chains.service';
 import { ExecutionsService } from '../../services/executions.service';
@@ -46,6 +47,7 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
     ChainsComponent,
     ChainsListComponent,
     ChainsEditionComponent,
+    ChainsCreationComponent,
     ExecutionModal,
     ExecutionResultComponent,
     AddProcess,
