@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ChainsComponent } from './chains.component';
 import { ChainsListComponent } from './components/list/list.component';
-import { ChainsDetailComponent } from './components/detail/detail.component';
+import { ChainsEditionComponent } from './components/edition/edition.component';
 import { ExecutionResultComponent } from './components/execution-result/execution-result.component';
 
 
@@ -13,7 +13,7 @@ const routes: Routes = [
     component: ChainsComponent,
     children: [
       { path: '', component: ChainsListComponent },
-      { path: ':id', component: ChainsDetailComponent },
+      { path: ':id', component: ChainsEditionComponent },
       { path: ':id/executions/:executionId', component: ExecutionResultComponent },
     ],
   },

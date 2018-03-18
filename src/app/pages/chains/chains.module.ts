@@ -7,7 +7,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { routing } from './chains.routing';
 import { ChainsComponent } from './chains.component';
 import { ChainsListComponent } from './components/list/list.component';
-import { ChainsDetailComponent } from './components/detail/detail.component';
+import { ChainsEditionComponent } from './components/edition/edition.component';
 import { ExecutionResultComponent } from './components/execution-result/execution-result.component';
 
 import { ChainsService } from '../../services/chains.service';
@@ -45,7 +45,7 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
   declarations: [
     ChainsComponent,
     ChainsListComponent,
-    ChainsDetailComponent,
+    ChainsEditionComponent,
     ExecutionModal,
     ExecutionResultComponent,
     AddProcess,

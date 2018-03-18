@@ -16,11 +16,11 @@ import 'rxjs/add/operator/map';
 
 
 @Component({
-  selector: 'chains-detail-component',
-  templateUrl: 'detail.html',
-  styleUrls: ['./detail.scss'],
+  selector: 'chains-edition-component',
+  templateUrl: 'edition.html',
+  styleUrls: ['./edition.scss'],
 })
-export class ChainsDetailComponent implements OnInit {
+export class ChainsEditionComponent implements OnInit {
 
   id: number;
   chain: Chain;
