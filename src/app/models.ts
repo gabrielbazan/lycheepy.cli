@@ -75,6 +75,7 @@ export class Execution {
     public chainIdentifier: string,
     public start: string,
     public end: string,
-    public status: string
+    public status: string,
+    public reason: string
   ) {}
 }

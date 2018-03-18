@@ -44,11 +44,12 @@ export class ExecutionsService {
 
   private deserialize(o: object): Execution {
     return new Execution(
-      o['id'],
-      o['chainIdentifier'],
+      o['execution_id'],
+      o['chain_identifier'],
       o['start'],
       o['end'],
-      o['status']['name']
+      o['status']['name'],
+      o['reason']
     );
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { CswService } from '../../../../services/csw.service';
+import { Settings } from '../../../../settings';
 
 import 'leaflet-map';
 
@@ -66,9 +67,11 @@ export class ExecutionResultComponent implements OnInit, AfterViewInit {
       this.cleanMap();
 
       const references = result['dct:references'][0]._;
+      const url = new URL(references);
+      const wms = `${Settings.REPOSITORY_ENDPOINT}wms?${url.searchParams.toString()}`;
 
       L.tileLayer.wms(
-        references,
+        wms,
         {
           format: 'image/png',
           transparent: true,
