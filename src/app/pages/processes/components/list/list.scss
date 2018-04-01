@@ -1,0 +1,16 @@
+@import '../../../../theme/sass/conf/conf';
+
+table {
+  th {
+    text-align: center;
+    border-top: none;
+  }
+  td {
+    text-align: left !important;
+  }
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
+}

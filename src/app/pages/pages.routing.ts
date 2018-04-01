@@ -1,9 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
-// noinspection TypeScriptValidateTypes
 
-// export function loadChildren(path) { return System.import(path); };
 
 export const routes: Routes = [
   {
@@ -20,6 +18,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'chains', pathMatch: 'full' },
       { path: 'chains', loadChildren: './chains/chains.module#ChainsModule' },
+      { path: 'processes', loadChildren: './processes/processes.module#ProcessesModule' }
     ],
   },
 ];

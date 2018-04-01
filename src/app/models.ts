@@ -79,3 +79,19 @@ export class Execution {
     public reason: string
   ) {}
 }
+
+export class Format {
+  constructor(
+    public id: number,
+    public name: string,
+    public mimeType: string,
+    public extension: string
+  ) {}
+}
+
+export class DataType {
+  constructor(
+    public id: number,
+    public name: string
+  ) {}
+}
