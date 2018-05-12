@@ -3,7 +3,8 @@ import { ProcessesService } from '../../../../services/processes.service';
 import { FormatsService } from '../../../../services/formats.service';
 import { DataTypesService } from '../../../../services/data.types.service';
 import { Process, DataType, Format, Input, Output } from '../../../../models'
-import * as go from "gojs";
+import * as go from 'gojs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class ProcessesCreationComponent implements OnInit {
   constructor(
     protected service: ProcessesService,
     protected formatsService: FormatsService,
-    protected dataTypesService: DataTypesService
+    protected dataTypesService: DataTypesService,
+    private router: Router
   ) {
     this.loadFormats();
     this.loadDataTypes();
@@ -74,6 +76,7 @@ export class ProcessesCreationComponent implements OnInit {
     this.service.create(this.process, this.processFile).subscribe(
       process => {
         console.log(process);
+        this.router.navigate(['/processes']);
       },
     );
   }
