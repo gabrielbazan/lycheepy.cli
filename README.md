@@ -22,7 +22,7 @@ This is a WEB Client, based on the [Akveo ng2-admin](https://github.com/akveo/ng
 
 #### Execution Results and Automatically Published Products
 
-## Products List
+## Processes List
 
 ## Publish a Process
 
