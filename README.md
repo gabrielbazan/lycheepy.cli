@@ -4,27 +4,27 @@
 
 This is a WEB Client, based on the [Akveo ng2-admin](https://github.com/akveo/ngx-admin) (thanks!), for the [LycheePy](https://github.com/gabrielbazan/lycheepy) geospatial data processing server.
 
-# Chains List
+## Chains List
 
-# Chain Administration
+## Chain Administration
 
-## Execution Graph
+### Execution Graph
 
-## Add a Process
+### Add a Process
 
-## Metadata
+### Metadata
 
-## Executions List
+### Executions List
 
-## Execute
+### Execute
 
-### Dynamic Execution Form
+#### Dynamic Execution Form
 
-### Execution Results and Automatically Published Products
+#### Execution Results and Automatically Published Products
 
-# Products List
+## Products List
 
-# Publish a Process
+## Publish a Process
 
 
 ## TODO List
