@@ -4,6 +4,10 @@
 
 This is a WEB Client, based on the [Akveo ng2-admin](https://github.com/akveo/ngx-admin) (thanks!), for the [LycheePy](https://github.com/gabrielbazan/lycheepy) geospatial data processing server.
 
+## Configuration
+
+The configuration file is placed on [src/app/settings.ts](/src/app/settings.ts). There, the *HOST* setting specifies the hostname or IP where *LycheePy* can be found.
+
 ## Chains List
 
 <p align="center">
