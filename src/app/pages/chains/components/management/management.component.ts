@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ChainsService } from '../../../../services/chains.service';
 import { ExecutionsService } from '../../../../services/executions.service';
 import { ProcessesService } from '../../../../services/processes.service';
@@ -35,7 +35,8 @@ export class ChainManagementComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private executionsService: ExecutionsService,
-    private processesService: ProcessesService
+    private processesService: ProcessesService,
+    protected router: Router
   ) {}
 
   ngOnInit(): void {

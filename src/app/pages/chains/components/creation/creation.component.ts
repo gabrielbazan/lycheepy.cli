@@ -31,8 +31,9 @@ export class ChainsCreationComponent extends ChainManagementComponent {
     this.chain.publish = this.getPublish();
     this.chainsService.create(this.chain).subscribe(
       chain => {
-        this.chain = chain;
-        this.updateGraph();
+        this.router.navigate(
+          [`/pages/chains/${chain.id}`],
+        );
       },
     );
   }
