@@ -28,6 +28,15 @@ export class ChainsService {
     );
   }
 
+  create(properties: object) {
+    return this.http.post(
+      this.uri,
+      properties,
+    ).map(
+      (res: Response) => this.deserialize(res.json())
+    );
+  }
+
   update(id: number, properties: object) {
     return this.http.put(
       `${this.uri}${id}/`,

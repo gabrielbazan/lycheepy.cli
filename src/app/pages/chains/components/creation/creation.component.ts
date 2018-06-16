@@ -1,11 +1,40 @@
-import { Component } from '@angular/core';
+import { ChainManagementComponent } from '../management'
+import { Chain } from '../../../../models'
 
 
-@Component({
-  selector: 'chains-creation-component',
-  templateUrl: 'creation.html',
-  styleUrls: ['./creation.scss'],
-})
-export class ChainsCreationComponent {
+export class ChainsCreationComponent extends ChainManagementComponent {
+
+  protected loadChainData(): void {
+    this.chain = new Chain(
+      null,
+      null,
+      null,
+      null,
+      null,
+      [],
+      [],
+      {}
+    );
+
+    this.processes = [];
+
+    setTimeout(
+      () => {
+        super.drawGraph();
+      },
+      250,
+    );
+  }
+
+  save() {
+    this.chain.steps = this.getSteps();
+    this.chain.publish = this.getPublish();
+    this.chainsService.create(this.chain).subscribe(
+      chain => {
+        this.chain = chain;
+        this.updateGraph();
+      },
+    );
+  }
 
 }

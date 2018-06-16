@@ -33,14 +33,14 @@
     <textarea  id="abstract" class="form-control" placeholder="Abstract" [(ngModel)]='chain.abstract'></textarea>
   </div>
 
-  <button class="btn btn-primary btn-raised" type="button" (click)="updateChain()">Save</button>
+  <button class="btn btn-primary btn-raised" type="button" (click)="save()">Save</button>
 
 </ba-card>
 
 
 <ba-card *ngIf="executions && chain" title="Executions">
 
-  <table class="table table-hover">
+  <table class="table table-hover" *ngIf="executions.length">
     <thead>
     <tr>
       <th class="align-center">Execution ID</th>
