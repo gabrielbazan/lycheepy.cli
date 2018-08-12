@@ -16,7 +16,6 @@ import { Chain } from '../../../../models'
 export class ExecutionModal implements OnInit {
 
   chain: Chain;
-  description: any;
 
   formModel: DynamicFormControlModel[] = [];
   formGroup: FormGroup;
@@ -29,10 +28,7 @@ export class ExecutionModal implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.wpsService.describeProcess(this.chain.identifier).subscribe(data => {
-      this.description = data['wps:ProcessDescriptions'].ProcessDescription[0];
-      this.createFrom();
-    });
+    this.createFrom();
   }
 
   createFrom() {
@@ -41,22 +37,35 @@ export class ExecutionModal implements OnInit {
   }
 
   createFormControls() {
-    const inputs = this.description.DataInputs[0].Input;
 
-    const types = {
+    const dataTypeAndFormTypeMap = {
       'integer': 'number',
-      'string': 'string',
+      'float': 'number',
+      'boolean': 'boolean',
+      'positiveInteger': 'number',
+      'anyURI': 'url',
+      'date': 'date',
+      'dateTime': 'datetime',
     };
 
-    for (const input of inputs) {
+    for (const input of this.chain.inputs) {
+      let inputType;
+      let min;
+
+      if (input.dataType) {
+        inputType = (input.dataType in dataTypeAndFormTypeMap) ? dataTypeAndFormTypeMap[input.dataType] : 'string';
+        if (input.dataType === 'positiveInteger') { min = 0; }
+      }else if (input.format) {
+        inputType = 'url';
+      }
+
       this.formModel.push(
         new DynamicInputModel({
-          id: input['ows:Identifier'][0],
-          label: input['ows:Identifier'][0],
-          placeholder: input['ows:Title'][0],
-
-          // TODO: For now, its only literal
-          inputType: types[input.LiteralData[0]['ows:DataType'][0]._],
+          id: input.identifier,
+          label: input.identifier,
+          placeholder: input.title,
+          inputType,
+          min,
         }),
       );
     }
@@ -64,28 +73,29 @@ export class ExecutionModal implements OnInit {
   }
 
   execute() {
-    const inputValues = [];
+    const literalInputs = [];
+    const complexInputs = [];
 
-    for (const input of this.formModel) {
-      const imp = this.formService.findById(input.id, this.formModel) as DynamicInputModel;
-      inputValues.push({ identifier: input.id, value: imp.value });
+    for (const input of this.chain.inputs) {
+      if (input.dataType) {
+        literalInputs.push(this.getFormInputValue(input.identifier));
+      }else if (input.format) {
+        complexInputs.push(this.getFormInputValue(input.identifier));
+      }
     }
 
-    this.wpsService.execute(this.chain.identifier, inputValues).subscribe(data => {
-      const statusLocation = data['wps:ExecuteResponse'].$['statusLocation'];
-      this.router.navigate(
-        [`/pages/chains/${this.chain.id}/executions/${this.getExecutionId(statusLocation)}`],
-      );
+    this.wpsService.execute(this.chain.identifier, literalInputs, complexInputs).subscribe(data => {
+      this.closeModal();
     });
-    this.closeModal();
   }
 
-  private getExecutionId(statusLocation: string): string {
-    const s = statusLocation.split('/');
-    return s[s.length - 1].split('.')[0];
+  private getFormInputValue(inputIdentifier: string) {
+    const imp = this.formService.findById(inputIdentifier, this.formModel) as DynamicInputModel;
+    return{ identifier: inputIdentifier, value: imp.value };
   }
 
   closeModal() {
     this.activeModal.close();
   }
+
 }

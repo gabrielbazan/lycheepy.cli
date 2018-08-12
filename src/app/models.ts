@@ -3,6 +3,10 @@ class Parameter {
   identifier: string;
   title: string;
   abstract: string;
+  dataType: string;
+  format: string;
+
+  constructor() {}
 }
 
 export class Input extends Parameter {}
@@ -16,24 +20,13 @@ class Executable {
     public title: string,
     public abstract: string,
     public version: string,
-    public metadata: string[]
-  ) {}
-}
-
-export class Process extends Executable {
-  constructor(
-    public id: number,
-    public identifier: string,
-    public title: string,
-    public abstract: string,
-    public version: string,
     public metadata: string[],
     public inputs: Input[],
     public outputs: Output[]
-  ) {
-    super(id, identifier, title, abstract, version, metadata)
-  }
+  ) {}
 }
+
+export class Process extends Executable {}
 
 export class Chain extends Executable {
   constructor(
@@ -43,10 +36,12 @@ export class Chain extends Executable {
     public abstract: string,
     public version: string,
     public metadata: string[],
+    public inputs: Input[],
+    public outputs: Output[],
     public steps: Step[],
     public publish: object
   ) {
-    super(id, identifier, title, abstract, version, metadata)
+    super(id, identifier, title, abstract, version, metadata, inputs, outputs)
   }
 
   getProcessesIdentifiers(): string[] {

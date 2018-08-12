@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Settings } from '../settings';
-import { Chain, Step } from '../models'
+import { Chain, Step, Input, Output } from '../models'
 
 
 @Injectable()
@@ -62,6 +62,8 @@ export class ChainsService {
       o['abstract'],
       o['version'],
       <string[]> o['metadata'],
+      <Input[]> o['inputs'],
+      <Output[]> o['outputs'],
       <Step[]> o['steps'],
       o['publish']
     );

@@ -50,12 +50,11 @@ export class WpsService {
     });
   }
 
-  execute(identifier: string, inputsValues) {
+  execute(identifier: string, literalInputs, complexInputs) {
 
     const inputObjects: any = [];
 
-    for (const input of inputsValues) {
-      // TODO: Support ComplexData
+    for (const input of literalInputs) {
       inputObjects.push(
         {
           'wps:Input': {
@@ -66,6 +65,21 @@ export class WpsService {
               'wps:LiteralData': {
                 '#text': input.value,
               },
+            },
+          },
+        },
+      );
+    }
+
+    for (const input of complexInputs) {
+      inputObjects.push(
+        {
+          'wps:Input': {
+            'ows:Identifier': {
+              '#text': input.identifier,
+            },
+            'wps:Reference': {
+              '@xlink:href': input.value
             },
           },
         },
@@ -84,6 +98,12 @@ export class WpsService {
           '@xsi:schemaLocation': 'http://www.opengis.net/wps/1.0.0 ../wpsExecute_request.xsd',
           'ows:Identifier': {
             '#text': identifier,
+          },
+          'wps:ResponseForm': {
+            'wps:ResponseDocument': {
+              '@storeExecuteResponse': 'true',
+              '@status': 'true',
+            }
           },
           'wps:DataInputs': inputObjects,
         },
