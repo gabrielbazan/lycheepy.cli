@@ -13,6 +13,8 @@ export class ChainsCreationComponent extends ChainManagementComponent {
       null,
       [],
       [],
+      [],
+      [],
       {}
     );
 
