@@ -86,6 +86,15 @@ export class ChainManagementComponent implements OnInit {
   openExecutionForm() {
     const modal = this.modalService.open(ExecutionModal, { size: 'lg' });
     modal.componentInstance.chain = this.chain;
+    const self = this;
+    modal.result.then((result) => {
+      setTimeout(
+        function() {
+          self.loadExecutions();
+        },
+        4000
+      );
+    });
   }
 
   save() {
@@ -105,8 +114,6 @@ export class ChainManagementComponent implements OnInit {
     const $ = go.GraphObject.make;
     const self = this;
 
-    console.log(element);
-
     self.diagram = $(
       go.Diagram,
       element,
@@ -115,7 +122,7 @@ export class ChainManagementComponent implements OnInit {
         // For this sample, automatically show the state of the diagram's model on the page
         'ModelChanged'(e) {
           if (e.isTransactionFinished) {
-            self.doSomething();
+            self.transactionFinished();
           }
         },
         layout: $(go.LayeredDigraphLayout),
@@ -292,20 +299,18 @@ export class ChainManagementComponent implements OnInit {
         {
           from: before.identifier,
           fromPort: output.identifier,
-          to: this.getTo(step.match, after.identifier),
-          toPort: output.identifier
+          to: after.identifier,
+          toPort: this.getTo(step.match, output.identifier)
         }
       );
     }
     return stepLinks;
   }
 
-  private getTo(match: string[], input: string): string {
-    let output: string = input;
-    for (const m of match) {
-      if (m['input'] === input) {
-        output = m['output'];
-      }
+  private getTo(match: object, output: string): string {
+    let input: string = output;
+    if (output in match) {
+      input = match[output];
     }
     return input;
   }
@@ -365,9 +370,7 @@ export class ChainManagementComponent implements OnInit {
     return steps;
   }
 
-  private doSomething() {
-    console.log('Doing something');
-  }
+  private transactionFinished() {}
 
   private translateLinks(links): object {
     const translated: object = {};
