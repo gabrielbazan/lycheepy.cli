@@ -116,7 +116,7 @@
     "karma-jasmine": "1.1.0",
     "karma-jasmine-html-reporter": "0.2.2",
     "npm-run-all": "4.0.2",
-    "protractor": "^5.3.2",
+    "protractor": "^5.4.0",
     "rimraf": "2.6.1",
     "standard-changelog": "1.0.1",
     "stylelint": "7.10.1",
@@ -125,7 +125,7 @@
     "tslint-eslint-rules": "4.0.0",
     "tslint-language-service": "0.9.6",
     "typescript": "2.3.2",
-    "typogr": "0.6.6",
+    "typogr": "^0.6.8",
     "underscore": "1.8.3",
     "wintersmith": "^2.4.1",
     "wintersmith-sassy": "1.1.0"
