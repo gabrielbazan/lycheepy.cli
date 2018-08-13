@@ -55,7 +55,7 @@ export class ChainManagementComponent implements OnInit {
       chain => {
         this.chain = chain;
         this.loadProcesses();
-        this.pollExecutions();
+        this.loadExecutions();
       },
       err => console.error(err),
     );
@@ -74,20 +74,7 @@ export class ChainManagementComponent implements OnInit {
     );
   }
 
-  private pollExecutions() {
-    this.loadExecutions();
-    const self = this;
-    setInterval(
-      function() {
-        self.loadExecutions();
-      },
-      5000
-    );
-  }
-
   private loadExecutions(): void {
-    console.log('Reloading executions');
-
     this.executionsService.getList({ order_by: 'start__desc', chain_identifier: this.chain.identifier }).subscribe(
       executions => {
         this.executions = executions;
@@ -99,6 +86,15 @@ export class ChainManagementComponent implements OnInit {
   openExecutionForm() {
     const modal = this.modalService.open(ExecutionModal, { size: 'lg' });
     modal.componentInstance.chain = this.chain;
+    const self = this;
+    modal.result.then((result) => {
+      setTimeout(
+        function() {
+          self.loadExecutions();
+        },
+        4000
+      );
+    });
   }
 
   save() {
@@ -374,9 +370,7 @@ export class ChainManagementComponent implements OnInit {
     return steps;
   }
 
-  private transactionFinished() {
-    console.log('Transaction finished');
-  }
+  private transactionFinished() {}
 
   private translateLinks(links): object {
     const translated: object = {};
