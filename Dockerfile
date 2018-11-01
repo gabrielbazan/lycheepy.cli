@@ -1,6 +1,6 @@
-FROM node:6.9.5
+FROM node
 
-RUN git clone https://github.com/akveo/ng2-admin.git /var/www \
+RUN git clone https://github.com/gabrielbazan/lycheepy.cli /var/www \
     && cd /var/www \
     && npm install --global rimraf \
     && npm run clean \
