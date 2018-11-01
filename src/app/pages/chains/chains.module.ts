@@ -9,14 +9,12 @@ import { ChainsComponent } from './chains.component';
 import { ChainsListComponent } from './components/list';
 import { ChainsCreationComponent } from './components/creation';
 import { ChainsEditionComponent } from './components/edition';
-import { ExecutionResultComponent } from './components/execution-result';
 
 import { ChainsService } from '../../services/chains.service';
 import { ExecutionsService } from '../../services/executions.service';
 import { ProcessesService } from '../../services/processes.service';
 
 import { WpsService } from '../../services/wps.service';
-import { CswService } from '../../services/csw.service';
 
 import { ExecutionModal } from './components/execution/execution.component';
 import { AddProcess } from './components/add-process/add-process.component';
@@ -49,13 +47,11 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
     ChainsEditionComponent,
     ChainsCreationComponent,
     ExecutionModal,
-    ExecutionResultComponent,
     AddProcess,
   ],
   providers: [
     ChainsService,
     WpsService,
-    CswService,
     ExecutionsService,
     ProcessesService,
   ],
