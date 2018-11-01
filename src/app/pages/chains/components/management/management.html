@@ -50,7 +50,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let execution of executions" routerLink="/pages/chains/{{ chain.id }}/executions/{{ execution.id }}">
+    <tr *ngFor="let execution of executions">  <!--routerLink="/pages/chains/{{ chain.id }}/executions/{{ execution.id }}"-->
       <td>{{ execution.id }}</td>
       <td>{{ execution.start }}</td>
       <td>{{ execution.end }}</td>
