@@ -25,6 +25,3 @@ install:
 
 script:
   - npm run build:ci
-
-notifications:
-  slack: akveo:q559HckfZMSyZRb803aiLcjH
