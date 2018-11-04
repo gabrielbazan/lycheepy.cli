@@ -1,34 +1,57 @@
-* **I'm submitting a ...**
-[ ] bug report
-[ ] feature request
-[ ] question about the decisions made in the repository
+<!--
+ATTENTION! WE WILL HAVE TO CLOSE THIS ISSUE if you don't provide the needed information.
+Please read https://github.com/akveo/ngx-admin/blob/master/CONTRIBUTING.md before opening an issue.
+-->
 
-* **Do you want to request a *feature* or report a *bug*?**
+### Issue type
 
+**I'm submitting a ...**  (check one with "x")
 
+* [ ] bug report
+* [ ] feature request
+* [ ] question about the decisions made in the repository
 
-* **What is the current behavior?**
+### Issue description
 
+**Current behavior:**
+<!-- Describe how the bug manifests. -->
 
+**Expected behavior:**
+<!-- Describe what the behavior would be without the bug. -->
 
-* **If the current behavior is a bug, please provide the steps to reproduce and if possible a minimal demo of the problem** via
-https://plnkr.co or similar (you can use this template as a starting point: http://plnkr.co/edit/tpl:AvJOMERrnz94ekVua0u5).
+**Steps to reproduce:**
+<!--  Please explain the steps required to duplicate the issue, especially if you are able to provide a sample application. -->
 
+**Related code:**
+<!-- 
+If you are able to illustrate the bug or feature request with an example, please provide a sample application via one of the following means:
 
+A sample application via GitHub
 
-* **What is the expected behavior?**
+StackBlitz (https://stackblitz.com)
 
+Plunker (http://plnkr.co/edit/cpeRJs?p=preview)
 
+-->
 
-* **What is the motivation / use case for changing the behavior?**
+```
+insert short code snippets here
+```
 
+### Other information:
 
+**npm, node, OS, Browser**
+```
+<!--
+Node, npm: `node --version` and `npm --version`
+OS: Windows (7/8/10). Linux (incl. distribution). macOS (El Capitan? Sierra?)
+Browser: Chrome/Safari/Firefox/etc?
+-->
+```
 
-* **Please tell us about your environment:**
-
-- Angular version: 2.0.0-rc.X
-- Browser: [all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView ]
-
-
-
-* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
+**Angular, Nebular**
+```
+<!--
+Check your `package-lock.json` or locate a `package.json` in the `node_modules` folder.
+-->
+```

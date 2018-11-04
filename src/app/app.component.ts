@@ -1,47 +1,17 @@
-import { Component, ViewContainerRef } from '@angular/core';
-import * as $ from 'jquery';
-
-import { GlobalState } from './global.state';
-import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
-import { BaThemeConfig } from './theme/theme.config';
-import { layoutPaths } from './theme/theme.constants';
-
-/*
- * App Component
- * Top Level Component
+/**
+ * @license
+ * Copyright Akveo. All Rights Reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
  */
+import { Component, OnInit } from '@angular/core';
+
 @Component({
-  selector: 'app',
-  styleUrls: ['./app.component.scss'],
-  template: `
-    <main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
-      <div class="additional-bg"></div>
-      <router-outlet></router-outlet>
-    </main>
-  `
+  selector: 'ngx-app',
+  template: '<router-outlet></router-outlet>',
 })
-export class App {
+export class AppComponent implements OnInit {
 
-  isMenuCollapsed: boolean = false;
+  constructor() {}
 
-  constructor(private _state: GlobalState,
-              private _imageLoader: BaImageLoaderService,
-              private _spinner: BaThemeSpinner,
-              private viewContainerRef: ViewContainerRef,
-              private themeConfig: BaThemeConfig) {
-
-    themeConfig.config();
-
-    this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
-      this.isMenuCollapsed = isCollapsed;
-    });
-  }
-
-  public ngAfterViewInit(): void {
-    // hide spinner once all loaders are completed
-    BaThemePreloader.load().then((values) => {
-      this._spinner.hide();
-    });
-  }
-
+  ngOnInit(): void {}
 }
