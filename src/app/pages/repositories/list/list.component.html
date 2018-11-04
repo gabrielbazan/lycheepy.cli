@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card>
+      <nb-card-header>
+        Repositories
+      </nb-card-header>
+      <nb-card-body>
+
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Type</th>
+              <th scope="col">Enabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let repository of repositories">
+              <th scope="row">{{ repository.id }}</th>
+              <td>{{ repository.name }}</td>
+              <td>{{ repository.type }}</td>
+              <td>{{ repository.enabled ? 'Yes' : 'No' }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

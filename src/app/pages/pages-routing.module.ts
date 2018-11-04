@@ -3,11 +3,16 @@ import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { ListComponent } from './repositories/list/list.component';
+
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [{
+    path: 'repositories',
+    component: ListComponent,
+  }, {
     path: 'miscellaneous',
     loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',
   }, {

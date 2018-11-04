@@ -1,5 +1,6 @@
 import { NbMenuItem } from '@nebular/theme';
 
+
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Chains',
@@ -17,7 +18,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Processes',
-    icon: 'nb-shuffle',
+    icon: 'nb-loop',
     children: [
       {
         title: 'Processes',
@@ -31,7 +32,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Repositories',
-    icon: 'nb-shuffle',
+    icon: 'nb-cloudy',
     children: [
       {
         title: 'Repositories',

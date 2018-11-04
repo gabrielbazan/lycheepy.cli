@@ -4,6 +4,7 @@ import { PagesComponent } from './pages.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import {RepositoriesModule} from './repositories/repositories.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -14,6 +15,7 @@ const PAGES_COMPONENTS = [
     PagesRoutingModule,
     ThemeModule,
     MiscellaneousModule,
+    RepositoriesModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
