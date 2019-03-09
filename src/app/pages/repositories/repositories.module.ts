@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { ListComponent } from './list/list.component';
 import { RepositoriesService } from '../../@core/data/repositories.service';
-import {ThemeModule} from '../../@theme/theme.module';
+import { ThemeModule } from '../../@theme/theme.module';
+import { AddComponent } from './add/add.component';
+import { ListComponent } from './list/list.component';
 
 
 @NgModule({
@@ -10,6 +11,7 @@ import {ThemeModule} from '../../@theme/theme.module';
   ],
   declarations: [
     ListComponent,
+    AddComponent,
   ],
   providers: [
     RepositoriesService,

@@ -7,12 +7,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-shuffle',
     children: [
       {
-        title: 'Chains',
+        title: 'Manage',
         link: '/pages/chains',
       },
       {
-        title: 'Add',
-        link: '/pages/chains/add',
+        title: 'Register',
+        link: '/pages/add-chain',
       },
     ],
   },
@@ -21,12 +21,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-loop',
     children: [
       {
-        title: 'Processes',
+        title: 'Manage',
         link: '/pages/processes',
       },
       {
-        title: 'Add',
-        link: '/pages/processes/add',
+        title: 'Register',
+        link: '/pages/add-process',
       },
     ],
   },
@@ -35,12 +35,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-cloudy',
     children: [
       {
-        title: 'Repositories',
+        title: 'Manage',
         link: '/pages/repositories',
       },
       {
-        title: 'Add',
-        link: '/pages/repositories/create',
+        title: 'Register',
+        link: '/pages/add-repository',
       },
     ],
   }

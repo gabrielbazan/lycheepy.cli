@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { ListComponent } from './repositories/list/list.component';
+import { AddComponent } from './repositories/add/add.component';
 
 
 const routes: Routes = [{
@@ -12,6 +13,9 @@ const routes: Routes = [{
   children: [{
     path: 'repositories',
     component: ListComponent,
+  }, {
+    path: 'add-repository',
+    component: AddComponent,
   }, {
     path: 'miscellaneous',
     loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',

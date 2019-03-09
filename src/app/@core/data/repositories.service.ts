@@ -23,10 +23,10 @@ export class RepositoriesService {
   }
 
   create(data) {
-    return  this.httpClient.post(this.uri, data);
+    return this.httpClient.post(this.uri, data);
   }
 
   update(identifier, data) {
-    return  this.httpClient.put(`${this.uri}/${identifier}`, data);
+    return this.httpClient.put(`${this.uri}/${identifier}`, data);
   }
 }

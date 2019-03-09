@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { UserService } from './users.service';
 import { StateService } from './state.service';
 import { LayoutService } from './layout.service';
+import {RepositoriesTypesSettingsService} from './repositories-types-settings.service';
 
 const SERVICES = [
   UserService,
   StateService,
   LayoutService,
+  RepositoriesTypesSettingsService
 ];
 
 @NgModule({

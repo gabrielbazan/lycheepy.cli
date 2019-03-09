@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <nb-card>
+
+      <nb-card-header>
+        Register a Repository
+      </nb-card-header>
+
+      <nb-card-body>
+
+        <div class="row">
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+
+            <div class="input-group" style="margin-bottom: 30px">
+              <input type="text" [(ngModel)]="repository.name" placeholder="Name" class="form-control"/>
+            </div>
+
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-8">
+
+            <div class="form-group" style="margin-bottom: 30px">
+              <select [(ngModel)]="repository.type" class="form-control" (change)="preloadSettings()">
+                <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-4">
+
+            <nb-checkbox [value]="true" [(ngModel)]="repository.enabled">Enabled</nb-checkbox>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="this.repository.configurations" class="row">
+
+          <div class="col-lg-10 col-md-10 col-sm-12">
+
+            <div *ngFor="let setting of settings[repository.type]['available']" class="input-group" style="margin-bottom: 15px">
+              <input
+                [(ngModel)]="repository.configurations[setting]"
+                placeholder="{{ setting }}"
+                type="text"
+                class="form-control"/>
+              <!--[attr.status]="settings[repository.type]['mandatory'].includes(setting) ? 'danger' : ''"-->
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <button class="btn btn-primary" (click)="create()">Register</button>
+          </div>
+
+        </div>
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

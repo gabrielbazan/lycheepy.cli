@@ -92,23 +92,17 @@ export class DataType {
 }
 
 export class Repository {
-  constructor(
-    public id: number,
-    public type: string,
-    public name: string,
-    public created: string,
-    public enabled: boolean,
-    public configurations: object,
-    public availableConfigurations: string[],
-    public mandatoryConfigurations: string[]
-  ) {}
+  public created: string;
+  public configurations: object;
+  public availableConfigurations: string[];
+  public mandatoryConfigurations: string[];
+  public id: number;
+  public type: string;
+  public name: string;
+  public enabled: boolean;
 }
 
-// TODO: Make it an Enum
-// Couldn't because of the TS version
-export class RepositoryType {
-
-  static get(): string[] {
-    return ['GEO_SERVER', 'FTP'];
-  }
+export enum RepositoryType {
+  GEO_SERVER = 'GEO_SERVER',
+  FTP = 'FTP'
 }
