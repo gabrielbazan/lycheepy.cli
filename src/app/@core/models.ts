@@ -101,8 +101,3 @@ export class Repository {
   public name: string;
   public enabled: boolean;
 }
-
-export enum RepositoryType {
-  GEO_SERVER = 'GEO_SERVER',
-  FTP = 'FTP'
-}
