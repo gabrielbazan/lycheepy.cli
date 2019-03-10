@@ -3,7 +3,7 @@
     <nb-card>
 
       <nb-card-header>
-        Register a Repository
+        {{ repository.name }}
       </nb-card-header>
 
       <nb-card-body>
@@ -21,7 +21,7 @@
           <div class="col-lg-4 col-md-4 col-sm-8">
 
             <div class="form-group" style="margin-bottom: 30px">
-              <select [(ngModel)]="repository.type" class="form-control" (change)="preloadSettings()">
+              <select [(ngModel)]="repository.type" class="form-control">
                 <option *ngFor="let type of types" [value]="type">{{ type }}</option>
               </select>
             </div>
@@ -36,7 +36,7 @@
 
         </div>
 
-        <div *ngIf="this.repository.configurations" class="row">
+        <div *ngIf="this.repository.id" class="row">
 
           <div class="col-lg-10 col-md-10 col-sm-12">
 
@@ -55,7 +55,7 @@
         <div class="row">
 
           <div class="col-lg-6 col-md-6 col-sm-12">
-            <button class="btn btn-primary" (click)="create()">Register</button>
+            <button class="btn btn-primary" (click)="update()">Save</button>
           </div>
 
         </div>

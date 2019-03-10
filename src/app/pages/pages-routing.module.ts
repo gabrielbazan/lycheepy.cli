@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { ListComponent } from './repositories/list/list.component';
 import { AddComponent } from './repositories/add/add.component';
+import { EditComponent } from './repositories/edit/edit.component';
 
 
 const routes: Routes = [{
@@ -16,6 +17,9 @@ const routes: Routes = [{
   }, {
     path: 'add-repository',
     component: AddComponent,
+  }, {
+    path: 'repository/:id',
+    component: EditComponent,
   }, {
     path: 'miscellaneous',
     loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',

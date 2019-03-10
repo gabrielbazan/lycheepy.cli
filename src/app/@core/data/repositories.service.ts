@@ -26,6 +26,10 @@ export class RepositoriesService {
     return this.httpClient.post(this.uri, data);
   }
 
+  get(identifier) {
+    return this.httpClient.get(`${this.uri}/${identifier}`);
+  }
+
   update(identifier, data) {
     return this.httpClient.put(`${this.uri}/${identifier}`, data);
   }

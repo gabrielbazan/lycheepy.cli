@@ -1,38 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { RepositoriesService } from '../../../@core/data/repositories.service';
-import { RepositoriesTypesSettingsService } from '../../../@core/data/repositories-types-settings.service';
+import { Component } from '@angular/core';
 import { Repository } from '../../../@core/models';
 
-
 import 'style-loader!angular2-toaster/toaster.css';
-import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
+
+import { ManageComponent } from '../manage/manage.component'
 
 
 @Component({
   selector: 'ngx-add-repository',
   templateUrl: './add.component.html',
 })
-export class AddComponent implements OnInit {
-
-  protected repository: Repository = new Repository();
-  protected settings: object;
-  protected types: string[];
-
-  constructor(
-    private service: RepositoriesService,
-    private settingsService: RepositoriesTypesSettingsService,
-    private router: Router,
-    private toastService: NbToastrService,
-  ) {}
-
-  ngOnInit(): void {
-    this.settingsService.get().subscribe((settings: object) => {
-      this.settings = settings;
-      this.types = Object.keys(this.settings);
-    });
-  }
+export class AddComponent extends ManageComponent {
 
   protected create() {
     this.service.create(this.repository).subscribe((repository:  Repository) => {
@@ -63,16 +42,4 @@ export class AddComponent implements OnInit {
     this.repository.configurations = settings;
   }
 
-  private showToast(title, body, status, time) {
-    const config = {
-      status: status,
-      destroyByClick: true,
-      duration: time,
-      hasIcon: true,
-      position: NbGlobalPhysicalPosition.BOTTOM_RIGHT,
-      preventDuplicates: false,
-    };
-
-    this.toastService.show(body, title, config);
-  }
 }

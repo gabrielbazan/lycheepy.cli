@@ -3,6 +3,7 @@ import { RepositoriesService } from '../../@core/data/repositories.service';
 import { ThemeModule } from '../../@theme/theme.module';
 import { AddComponent } from './add/add.component';
 import { ListComponent } from './list/list.component';
+import { EditComponent } from './edit/edit.component';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { ListComponent } from './list/list.component';
   declarations: [
     ListComponent,
     AddComponent,
+    EditComponent,
   ],
   providers: [
     RepositoriesService,

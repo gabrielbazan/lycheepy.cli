@@ -16,7 +16,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let repository of repositories">
+            <tr
+              *ngFor="let repository of repositories"
+              style="cursor: pointer;"
+              (click)="redirectToDetail(repository.id)">
               <th scope="row">{{ repository.id }}</th>
               <td>{{ repository.name }}</td>
               <td>{{ repository.type }}</td>
