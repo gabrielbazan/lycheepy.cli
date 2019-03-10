@@ -3,7 +3,7 @@
     <nb-card>
 
       <nb-card-header>
-        {{ repository.name }}
+        {{repository.name}}
       </nb-card-header>
 
       <nb-card-body>
@@ -21,7 +21,7 @@
           <div class="col-lg-4 col-md-4 col-sm-8">
 
             <div class="form-group" style="margin-bottom: 30px">
-              <select [(ngModel)]="repository.type" class="form-control">
+              <select [(ngModel)]="repository.type" class="form-control" disabled>
                 <option *ngFor="let type of types" [value]="type">{{ type }}</option>
               </select>
             </div>
@@ -54,8 +54,8 @@
 
         <div class="row">
 
-          <div class="col-lg-6 col-md-6 col-sm-12">
-            <button class="btn btn-primary" (click)="update()">Save</button>
+          <div class="col-lg-10 col-md-10 col-sm-12 d-flex justify-content-center">
+            <button class="btn btn-primary" style="cursor: pointer;" (click)="update()">Save</button>
           </div>
 
         </div>
