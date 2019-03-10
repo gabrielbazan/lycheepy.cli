@@ -9,22 +9,25 @@
       <nb-card-body>
 
         <table class="table table-hover">
+
           <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Identifier</th>
-            <th scope="col">Version</th>
-            <th scope="col">Title</th>
-          </tr>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Identifier</th>
+              <th scope="col">Version</th>
+              <th scope="col">Title</th>
+            </tr>
           </thead>
+
           <tbody>
-          <tr *ngFor="let process of processes" style="cursor: pointer;">  <!--routerLink="/pages/processes/{{ process.id }}"-->
-            <th scope="row">{{ process.id }}</th>
-            <th>{{ process.identifier }}</th>
-            <td>{{ process.version }}</td>
-            <td>{{ process.title }}</td>
-          </tr>
+            <tr *ngFor="let process of processes" style="cursor: pointer;" (click)="redirectToDetail(process.id)">
+              <th scope="row">{{ process.id }}</th>
+              <th scope="row">{{ process.identifier }}</th>
+              <td>{{ process.version }}</td>
+              <td>{{ process.title }}</td>
+            </tr>
           </tbody>
+
         </table>
 
       </nb-card-body>
