@@ -24,7 +24,9 @@ export class ProcessesService {
 
     return this.http.get(this.uri, { params: search }).pipe(
       map(
-        (res: Response) => ProcessesService.deserializeList(res.json()['results'])
+        response => {
+          return ProcessesService.deserializeList(response['results'])
+        }
       )
     );
   }

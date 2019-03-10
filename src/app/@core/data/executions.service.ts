@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Settings } from '../settings';
-import { Execution } from '../models'
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Settings} from '../settings';
+import {Execution} from '../models';
+import {map} from 'rxjs/operators';
 
 
 @Injectable()
@@ -11,6 +11,25 @@ export class ExecutionsService {
 
   constructor(private http: HttpClient) {
     this.uri = `${Settings.EXECUTIONS_ENDPOINT}executions/`;
+  }
+
+  private static deserializeList(list: object[]): Execution[] {
+    const serialized: Execution[] = [];
+    for (const o of list) {
+      serialized.push(ExecutionsService.deserialize(o));
+    }
+    return serialized;
+  }
+
+  private static deserialize(o: object): Execution {
+    return new Execution(
+      o['execution_id'],
+      o['chain_identifier'],
+      o['start'],
+      o['end'],
+      o['status']['name'],
+      o['reason'],
+    );
   }
 
   getList(filter) {
@@ -36,25 +55,6 @@ export class ExecutionsService {
       map(
         (res: Response) => ExecutionsService.deserialize(res.json())
       )
-    );
-  }
-
-  private static deserializeList(list: object[]): Execution[] {
-    const serialized: Execution[] = [];
-    for (const o of list) {
-      serialized.push(ExecutionsService.deserialize(o));
-    }
-    return serialized;
-  }
-
-  private static deserialize(o: object): Execution {
-    return new Execution(
-      o['execution_id'],
-      o['chain_identifier'],
-      o['start'],
-      o['end'],
-      o['status']['name'],
-      o['reason']
     );
   }
 }

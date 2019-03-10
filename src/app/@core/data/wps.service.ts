@@ -20,10 +20,10 @@ export class WpsService {
     search.append('service', 'WPS');
     search.append('request', 'getcapabilities');
 
-    return this.http.get(this.uri, {params: search}).pipe(
+    return this.http.get(this.uri, {params: search, responseType: 'text'}).pipe(
       map(response => {
         let res;
-        xml2js.parseString( response.text(), function (err, result) {
+        xml2js.parseString( response, function (err, result) {
           res = result;
         });
         return res;

@@ -1,0 +1,117 @@
+<div class="row">
+
+  <div class="col-md-6 col-lg-6 col-sm-12">
+
+    <form-wizard>
+
+      <wizard-step [title]="'Metadata'" [isValid]="process.identifier && process.title">
+
+        <div class="form-group">
+          <input type="text"
+                 id="identifier"
+                 class="form-control"
+                 placeholder="Identifier"
+                 [(ngModel)]='process.identifier'
+                 (input)="updateDiagram()">
+        </div>
+
+        <tag-input [(ngModel)]='process.metadata'
+                   theme='minimal'
+                   placeholder="+ Metadata"
+                   secondaryPlaceholder="Enter metadata"
+                   [editable]='true'
+                   modelAsStrings='true'></tag-input>
+
+        <div class="form-group">
+          <input type="text" id="title" class="form-control" placeholder="Title" [(ngModel)]='process.title'>
+        </div>
+        <div class="form-group">
+          <input type="text" id="version"  class="form-control" placeholder="Version" [(ngModel)]='process.version'>
+        </div>
+        <div class="form-group">
+          <textarea  id="abstract" class="form-control" placeholder="Abstract" [(ngModel)]='process.abstract'></textarea>
+        </div>
+
+      </wizard-step>
+
+      <wizard-step [title]="'Inputs'" [isValid]="process.inputs.length > 0">
+
+        <div class="form-group">
+          <input type="text" id="inputIdentifier" class="form-control" placeholder="Identifier" [(ngModel)]='input.identifier'>
+        </div>
+        <div class="form-group">
+          <input type="text" id="inputTitle" class="form-control" placeholder="Title" [(ngModel)]='input.title'>
+        </div>
+        <div class="form-group">
+          <textarea id="inputAbstract" class="form-control" placeholder="Abstract" [(ngModel)]='input.abstract'></textarea>
+        </div>
+
+        <div class="form-group">
+          <select id="inputFormat" class="form-control" [(ngModel)]='input.format'>
+            <option [ngValue]="null" disabled selected>Format</option>
+            <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select id="inputDataType" class="form-control" [(ngModel)]='input.dataType'>
+            <option [ngValue]="null" disabled selected>Data Type</option>
+            <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.name">{{dataType.name}}</option>
+          </select>
+        </div>
+
+        <div class="row" style="text-align: center;">
+          <button class="btn btn-primary btn-raised" type="button" style="float: none;margin: 0 auto;" (click)="addInput()">Add</button>
+        </div>
+
+      </wizard-step>
+
+
+      <wizard-step [title]="'Outputs'" [isValid]="process.outputs.length > 0">
+
+        <div class="form-group">
+          <input type="text" id="outputIdentifier" class="form-control" placeholder="Identifier" [(ngModel)]='output.identifier'>
+        </div>
+        <div class="form-group">
+          <input type="text" id="outputTitle" class="form-control" placeholder="Title" [(ngModel)]='output.title'>
+        </div>
+        <div class="form-group">
+          <textarea id="outputAbstract" class="form-control" placeholder="Abstract" [(ngModel)]='output.abstract'></textarea>
+        </div>
+
+        <div class="form-group">
+          <select id="outputFormat" class="form-control" [(ngModel)]='output.format'>
+            <option [ngValue]="null" disabled selected>Format</option>
+            <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select id="outputDataType" class="form-control" [(ngModel)]='output.dataType'>
+            <option [ngValue]="null" disabled selected>Data Type</option>
+            <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.name">{{dataType.name}}</option>
+          </select>
+        </div>
+
+        <div class="row" style="text-align: center;">
+          <button class="btn btn-primary btn-raised" type="button" style="float: none;margin: 0 auto;" (click)="addOutput()">Add</button>
+        </div>
+
+      </wizard-step>
+
+
+      <wizard-step [title]="'File'" [isValid]="true" (onComplete)="create()">
+        <div class="form-group">
+          <input type="file" id="file" class="form-control" placeholder="File" (change)="updateFile($event)">
+        </div>
+      </wizard-step>
+
+    </form-wizard>
+
+  </div>
+
+  <div class="col-md-6 col-lg-6 col-sm-12">
+    <div [hidden]="!process.identifier" id="graph" class="row" style="height: 300px;"></div>
+  </div>
+
+</div>
