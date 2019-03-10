@@ -16,7 +16,7 @@ export class FormatsService {
   getList() {
     return this.http.get(this.uri).pipe(
       map(
-        (res: Response) => FormatsService.deserializeList(res.json()['results'])
+        response => FormatsService.deserializeList(response['results'])
       )
     );
   }
@@ -26,7 +26,7 @@ export class FormatsService {
       `${this.uri}${id}/`
     ).pipe(
       map(
-        (res: Response) => FormatsService.deserialize(res.json())
+        response => FormatsService.deserialize(response)
       )
     );
   }

@@ -36,7 +36,7 @@ export class ProcessesService {
       `${this.uri}${id}/`
     ).pipe(
       map(
-        (res: Response) => ProcessesService.deserialize(res.json())
+        response => ProcessesService.deserialize(response)
       )
     );
   }
@@ -53,7 +53,7 @@ export class ProcessesService {
       data
     ).pipe(
       map(
-        (res: Response) => ProcessesService.deserialize(res.json())
+        response => ProcessesService.deserialize(response)
       )
     );
   }
@@ -64,7 +64,7 @@ export class ProcessesService {
       properties,
     ).pipe(
       map(
-        (res: Response) => ProcessesService.deserialize(res.json())
+        response => ProcessesService.deserialize(response)
       )
     );
   }

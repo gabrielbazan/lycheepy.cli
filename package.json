@@ -80,7 +80,9 @@
     "typeface-exo": "0.0.22",
     "web-animations-js": "2.2.5",
     "zone.js": "^0.8.26",
-    "gojs": "^1.7.26"
+    "gojs": "^1.7.26",
+    "ngx-chips": "^2.0.0-beta.0",
+    "angular-archwizard": "^3.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.5",

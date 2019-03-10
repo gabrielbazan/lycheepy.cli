@@ -3,10 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+
 import { ListComponent as RepositoriesListComponent } from './repositories/list/list.component';
-import { AddComponent } from './repositories/add/add.component';
-import { EditComponent } from './repositories/edit/edit.component';
+import { AddComponent as RepositoriesAddComponent } from './repositories/add/add.component';
+import { EditComponent as RepositoriesEditComponent } from './repositories/edit/edit.component';
+
 import { ListComponent as ProcessesListComponent } from './processes/list/list.component';
+import { AddComponent as ProcessesAddComponent } from './processes/add/add.component';
+
 
 const routes: Routes = [{
   path: '',
@@ -16,13 +20,16 @@ const routes: Routes = [{
     component: RepositoriesListComponent,
   }, {
     path: 'add-repository',
-    component: AddComponent,
+    component: RepositoriesAddComponent,
   }, {
     path: 'repository/:id',
-    component: EditComponent,
+    component: RepositoriesEditComponent,
   }, {
     path: 'processes',
     component: ProcessesListComponent,
+  }, {
+    path: 'add-process',
+    component: ProcessesAddComponent,
   }, {
     path: 'miscellaneous',
     loadChildren: './miscellaneous/miscellaneous.module#MiscellaneousModule',

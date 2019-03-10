@@ -1,117 +1,339 @@
 <div class="row">
 
-  <div class="col-md-6 col-lg-6 col-sm-12">
+  <div class="col-lg-12 col-md-12 col-sm-12">
 
-    <form-wizard>
+    <aw-wizard navigationMode="semi-strict" navBarLayout="small" navBarLocation="top">
 
-      <wizard-step [title]="'Metadata'" [isValid]="process.identifier && process.title">
+      <aw-wizard-step stepTitle="Metadata" stepId="metadata" (stepEnter)="showDiagramOn('metadata')">
 
-        <div class="form-group">
-          <input type="text"
-                 id="identifier"
-                 class="form-control"
-                 placeholder="Identifier"
-                 [(ngModel)]='process.identifier'
-                 (input)="updateDiagram()">
+        <div class="row">
+
+          <div class="col-lg-8 col-md-8 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Metadata
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div class="form-group">
+                  <input type="text"
+                         id="identifier"
+                         class="form-control"
+                         placeholder="Identifier"
+                         [(ngModel)]='process.identifier'
+                         (input)="updateDiagram()">
+                </div>
+
+                <tag-input [(ngModel)]='process.metadata'
+                           theme='minimal'
+                           placeholder="+ Metadata"
+                           secondaryPlaceholder="Enter metadata"
+                           modelAsStrings='true'></tag-input>
+
+                <div class="form-group">
+                  <input type="text" id="title" class="form-control" placeholder="Title" [(ngModel)]='process.title'>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="version"  class="form-control" placeholder="Version" [(ngModel)]='process.version'>
+                </div>
+                <div class="form-group">
+                  <textarea  id="abstract" class="form-control" placeholder="Abstract" [(ngModel)]='process.abstract'></textarea>
+                </div>
+
+              </nb-card-body>
+
+            </nb-card>
+
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Preview
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div [hidden]="!process.identifier" id="metadata-preview" class="row" style="height: 300px;"></div>
+
+              </nb-card-body>
+
+            </nb-card>
+
+          </div>
+
         </div>
 
-        <tag-input [(ngModel)]='process.metadata'
-                   theme='minimal'
-                   placeholder="+ Metadata"
-                   secondaryPlaceholder="Enter metadata"
-                   [editable]='true'
-                   modelAsStrings='true'></tag-input>
+      </aw-wizard-step>
 
-        <div class="form-group">
-          <input type="text" id="title" class="form-control" placeholder="Title" [(ngModel)]='process.title'>
+      <aw-wizard-step stepTitle="Inputs" stepId="inputs" (stepEnter)="showDiagramOn('inputs')">
+
+        <div class="row">
+
+          <div class="col-lg-8 col-md-8 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Inputs
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div class="form-group">
+                  <input type="text" id="inputIdentifier" class="form-control" placeholder="Identifier" [(ngModel)]='input.identifier'>
+                </div>
+
+                <div class="form-group">
+                  <input type="text" id="inputTitle" class="form-control" placeholder="Title" [(ngModel)]='input.title'>
+                </div>
+
+                <div class="form-group">
+                  <textarea id="inputAbstract" class="form-control" placeholder="Abstract" [(ngModel)]='input.abstract'></textarea>
+                </div>
+
+
+                <div class="row">
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+
+                    <div class="form-group">
+                      <select id="inputFormat" class="form-control" [(ngModel)]='input.format'>
+                        <option [ngValue]="null" disabled selected>Format</option>
+                        <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
+                      </select>
+                    </div>
+
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+
+                    <div class="form-group">
+                      <select id="inputDataType" class="form-control" [(ngModel)]='input.dataType'>
+                        <option [ngValue]="null" disabled selected>Data Type</option>
+                        <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.name">{{dataType.name}}</option>
+                      </select>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="row" style="text-align: center;">
+                  <button class="btn btn-primary btn-raised" type="button" style="float: none;margin: 0 auto;" (click)="addInput()">Add</button>
+                </div>
+
+              </nb-card-body>
+
+            </nb-card>
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Preview
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div [hidden]="!process.identifier" id="inputs-preview" class="row" style="height: 300px;"></div>
+
+              </nb-card-body>
+
+            </nb-card>
+
+          </div>
+
         </div>
-        <div class="form-group">
-          <input type="text" id="version"  class="form-control" placeholder="Version" [(ngModel)]='process.version'>
+
+      </aw-wizard-step>
+
+      <aw-wizard-step stepTitle="Outputs" stepId="outputs" (stepEnter)="showDiagramOn('outputs')">
+
+        <div class="row">
+
+          <div class="col-lg-8 col-md-8 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Outputs
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div class="form-group">
+                  <input type="text" id="outputIdentifier" class="form-control" placeholder="Identifier" [(ngModel)]='output.identifier'>
+                </div>
+
+                <div class="form-group">
+                  <input type="text" id="outputTitle" class="form-control" placeholder="Title" [(ngModel)]='output.title'>
+                </div>
+
+                <div class="form-group">
+                  <textarea id="outputAbstract" class="form-control" placeholder="Abstract" [(ngModel)]='output.abstract'></textarea>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+
+                    <div class="form-group">
+                      <select id="outputFormat" class="form-control" [(ngModel)]='output.format'>
+                        <option [ngValue]="null" disabled selected>Format</option>
+                        <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
+                      </select>
+                    </div>
+
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+
+                    <div class="form-group">
+                      <select id="outputDataType" class="form-control" [(ngModel)]='output.dataType'>
+                        <option [ngValue]="null" disabled selected>Data Type</option>
+                        <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.name">{{dataType.name}}</option>
+                      </select>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="row" style="text-align: center;">
+                  <button class="btn btn-primary btn-raised" type="button" style="float: none; margin: 0 auto;" (click)="addOutput()">Add</button>
+                </div>
+
+              </nb-card-body>
+
+            </nb-card>
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Preview
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div [hidden]="!process.identifier" id="outputs-preview" class="row" style="height: 300px;"></div>
+
+              </nb-card-body>
+
+            </nb-card>
+
+          </div>
+
         </div>
-        <div class="form-group">
-          <textarea  id="abstract" class="form-control" placeholder="Abstract" [(ngModel)]='process.abstract'></textarea>
+
+      </aw-wizard-step>
+
+      <aw-wizard-step stepTitle="File" stepId="file" (stepEnter)="showDiagramOn('file')">
+
+        <div class="row">
+
+          <div class="col-lg-8 col-md-8 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Process File
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div class="form-group">
+                  <input type="file" id="file" class="form-control" placeholder="File" (change)="updateFile($event)">
+                </div>
+
+              </nb-card-body>
+
+            </nb-card>
+
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Preview
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div [hidden]="!process.identifier" id="file-preview" class="row" style="height: 300px;"></div>
+
+              </nb-card-body>
+
+            </nb-card>
+
+          </div>
+
         </div>
 
-      </wizard-step>
+      </aw-wizard-step>
 
-      <wizard-step [title]="'Inputs'" [isValid]="process.inputs.length > 0">
+      <aw-wizard-completion-step stepTitle="Finish"
+                                 stepId="finish"
+                                 [canEnter]="canFinish()"
+                                 [canExit]="true"
+                                 (stepEnter)="showDiagramOn('finish')">
 
-        <div class="form-group">
-          <input type="text" id="inputIdentifier" class="form-control" placeholder="Identifier" [(ngModel)]='input.identifier'>
-        </div>
-        <div class="form-group">
-          <input type="text" id="inputTitle" class="form-control" placeholder="Title" [(ngModel)]='input.title'>
-        </div>
-        <div class="form-group">
-          <textarea id="inputAbstract" class="form-control" placeholder="Abstract" [(ngModel)]='input.abstract'></textarea>
-        </div>
+        <div class="row">
 
-        <div class="form-group">
-          <select id="inputFormat" class="form-control" [(ngModel)]='input.format'>
-            <option [ngValue]="null" disabled selected>Format</option>
-            <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
-          </select>
-        </div>
+          <div class="col-lg-8 col-md-8 col-sm-12">
 
-        <div class="form-group">
-          <select id="inputDataType" class="form-control" [(ngModel)]='input.dataType'>
-            <option [ngValue]="null" disabled selected>Data Type</option>
-            <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.name">{{dataType.name}}</option>
-          </select>
-        </div>
+            <nb-card style="height: 100%;">
 
-        <div class="row" style="text-align: center;">
-          <button class="btn btn-primary btn-raised" type="button" style="float: none;margin: 0 auto;" (click)="addInput()">Add</button>
-        </div>
+              <nb-card-header>
+                Finish
+              </nb-card-header>
 
-      </wizard-step>
+              <nb-card-body>
 
+                <button (click)="create()" class="btn btn-primary">Finish</button>
 
-      <wizard-step [title]="'Outputs'" [isValid]="process.outputs.length > 0">
+              </nb-card-body>
 
-        <div class="form-group">
-          <input type="text" id="outputIdentifier" class="form-control" placeholder="Identifier" [(ngModel)]='output.identifier'>
-        </div>
-        <div class="form-group">
-          <input type="text" id="outputTitle" class="form-control" placeholder="Title" [(ngModel)]='output.title'>
-        </div>
-        <div class="form-group">
-          <textarea id="outputAbstract" class="form-control" placeholder="Abstract" [(ngModel)]='output.abstract'></textarea>
-        </div>
+            </nb-card>
 
-        <div class="form-group">
-          <select id="outputFormat" class="form-control" [(ngModel)]='output.format'>
-            <option [ngValue]="null" disabled selected>Format</option>
-            <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
-          </select>
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-12">
+
+            <nb-card style="height: 100%;">
+
+              <nb-card-header>
+                Preview
+              </nb-card-header>
+
+              <nb-card-body>
+
+                <div [hidden]="!process.identifier" id="finish-preview" class="row" style="height: 300px;"></div>
+
+              </nb-card-body>
+
+            </nb-card>
+
+          </div>
+
         </div>
 
-        <div class="form-group">
-          <select id="outputDataType" class="form-control" [(ngModel)]='output.dataType'>
-            <option [ngValue]="null" disabled selected>Data Type</option>
-            <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.name">{{dataType.name}}</option>
-          </select>
-        </div>
+      </aw-wizard-completion-step>
 
-        <div class="row" style="text-align: center;">
-          <button class="btn btn-primary btn-raised" type="button" style="float: none;margin: 0 auto;" (click)="addOutput()">Add</button>
-        </div>
+    </aw-wizard>
 
-      </wizard-step>
-
-
-      <wizard-step [title]="'File'" [isValid]="true" (onComplete)="create()">
-        <div class="form-group">
-          <input type="file" id="file" class="form-control" placeholder="File" (change)="updateFile($event)">
-        </div>
-      </wizard-step>
-
-    </form-wizard>
-
-  </div>
-
-  <div class="col-md-6 col-lg-6 col-sm-12">
-    <div [hidden]="!process.identifier" id="graph" class="row" style="height: 300px;"></div>
   </div>
 
 </div>

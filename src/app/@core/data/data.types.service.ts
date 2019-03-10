@@ -16,7 +16,7 @@ export class DataTypesService {
   getList() {
     return this.http.get(this.uri).pipe(
       map(
-        (res: Response) => DataTypesService.deserializeList(res.json()['results'])
+        response => DataTypesService.deserializeList(response['results'])
       )
     );
   }
@@ -26,7 +26,7 @@ export class DataTypesService {
       `${this.uri}${id}/`
     ).pipe(
       map(
-        (res: Response) => DataTypesService.deserialize(res.json())
+        response => DataTypesService.deserialize(response)
       )
     );
   }

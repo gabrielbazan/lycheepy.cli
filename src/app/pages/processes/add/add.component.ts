@@ -45,7 +45,7 @@ export class AddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.drawDiagram();
+    //this.drawDiagram();
   }
 
   loadFormats() {
@@ -68,7 +68,7 @@ export class AddComponent implements OnInit {
 
   updateFile($event) {
     const files = $event.target.files || $event.srcElement.files;
-    this.processFile = files[0]
+    this.processFile = files[0];
   }
 
   create() {
@@ -81,10 +81,14 @@ export class AddComponent implements OnInit {
   }
 
 
-  private drawDiagram() {
-    const element = document.getElementById('graph');
+  private drawDiagram(elementId) {
+    const element = document.getElementById(elementId);
     const $ = go.GraphObject.make;
     const self = this;
+
+    if (self.diagram !== null) {
+      self.diagram.div = null;
+    }
 
     self.diagram = $(
       go.Diagram,
@@ -200,6 +204,11 @@ export class AddComponent implements OnInit {
     this.diagram.commitTransaction('update');
   }
 
+  protected showDiagramOn(stepId): void {
+    const elementId = `${stepId}-preview`;
+    this.drawDiagram(elementId);
+  }
+
   addInput() {
     this.process.inputs.push(this.input);
     this.input = new Input();
@@ -212,4 +221,11 @@ export class AddComponent implements OnInit {
     this.updateDiagram();
   }
 
+  protected canFinish(): boolean {
+    const identifier = this.process.identifier.length > 0;
+    const inputs = this.process.inputs.length > 0;
+    const outputs = this.process.outputs.length > 0;
+    const file = this.processFile !== undefined && this.processFile.size > 0;
+    return identifier && inputs && outputs && file;
+  }
 }
