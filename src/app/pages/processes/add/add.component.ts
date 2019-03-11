@@ -34,6 +34,9 @@ export class AddComponent implements OnInit {
 
   processFile: any;
 
+  protected inputType: string = 'format';
+  protected outputType: string = 'format';
+
   constructor(
     protected service: ProcessesService,
     protected formatsService: FormatsService,
@@ -45,7 +48,7 @@ export class AddComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.drawDiagram();
+    // this.drawDiagram();
   }
 
   loadFormats() {
@@ -74,7 +77,6 @@ export class AddComponent implements OnInit {
   create() {
     this.service.create(this.process, this.processFile).subscribe(
       process => {
-        console.log(process);
         this.router.navigate(['/processes']);
       },
     );

@@ -97,14 +97,19 @@
                   <textarea id="inputAbstract" class="form-control" placeholder="Abstract" [(ngModel)]='input.abstract'></textarea>
                 </div>
 
-
                 <div class="row">
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
 
+                    <label class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" name="inputType" checked (click)="inputType = 'format'; input.dataType = null;">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">Format</span>
+                    </label>
+
                     <div class="form-group">
-                      <select id="inputFormat" class="form-control" [(ngModel)]='input.format'>
-                        <option [ngValue]="null" disabled selected>Format</option>
+                      <select id="inputFormat" class="form-control" [(ngModel)]='input.format'  [disabled]="inputType != 'format'">
+                        <option [ngValue]="null" selected></option>
                         <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
                       </select>
                     </div>
@@ -113,9 +118,15 @@
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
 
+                    <label class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" name="inputType" (click)="inputType = 'data-type'; input.format = null;">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">Data Type</span>
+                    </label>
+
                     <div class="form-group">
-                      <select id="inputDataType" class="form-control" [(ngModel)]='input.dataType'>
-                        <option [ngValue]="null" disabled selected>Data Type</option>
+                      <select id="inputDataType" class="form-control" [(ngModel)]='input.dataType' [disabled]="inputType != 'data-type'">
+                        <option [ngValue]="null" selected></option>
                         <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.name">{{dataType.name}}</option>
                       </select>
                     </div>
@@ -131,6 +142,7 @@
               </nb-card-body>
 
             </nb-card>
+
           </div>
 
           <div class="col-lg-4 col-md-4 col-sm-12">
@@ -185,9 +197,15 @@
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
 
+                    <label class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" name="outputType" checked (click)="outputType = 'format'; output.dataType = null;">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">Format</span>
+                    </label>
+
                     <div class="form-group">
-                      <select id="outputFormat" class="form-control" [(ngModel)]='output.format'>
-                        <option [ngValue]="null" disabled selected>Format</option>
+                      <select id="outputFormat" class="form-control" [(ngModel)]='output.format' [disabled]="outputType != 'format'">
+                        <option [ngValue]="null" disabled selected></option>
                         <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
                       </select>
                     </div>
@@ -196,9 +214,15 @@
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
 
+                    <label class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" name="outputType" (click)="outputType = 'data-type'; output.format = null;">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">Data Type</span>
+                    </label>
+
                     <div class="form-group">
-                      <select id="outputDataType" class="form-control" [(ngModel)]='output.dataType'>
-                        <option [ngValue]="null" disabled selected>Data Type</option>
+                      <select id="outputDataType" class="form-control" [(ngModel)]='output.dataType' [disabled]="outputType != 'data-type'">
+                        <option [ngValue]="null" disabled selected></option>
                         <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.name">{{dataType.name}}</option>
                       </select>
                     </div>
